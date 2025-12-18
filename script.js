@@ -299,19 +299,257 @@ if (portalForm) {
 // ENHANCED ANIMATIONS
 // ==========================================
 
-// Animate sections on scroll
-const animateOnScroll = () => {
-    const sections = document.querySelectorAll('.section-animate');
+// Scroll Reveal Animation
+const revealElements = () => {
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
 
-    sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        const isVisible = rect.top < window.innerHeight - 100;
+    reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        const elementVisible = 150;
 
-        if (isVisible) {
-            section.classList.add('visible');
+        if (elementTop < windowHeight - elementVisible) {
+            el.classList.add('active');
         }
     });
 };
 
-window.addEventListener('scroll', animateOnScroll);
-window.addEventListener('load', animateOnScroll);
+window.addEventListener('scroll', revealElements);
+window.addEventListener('load', revealElements);
+
+// ==========================================
+// ANIMATED COUNTERS
+// ==========================================
+
+const animateCounter = (element, target, duration = 2000) => {
+    let start = 0;
+    const increment = target / (duration / 16);
+
+    const updateCounter = () => {
+        start += increment;
+        if (start < target) {
+            element.textContent = Math.floor(start);
+            requestAnimationFrame(updateCounter);
+        } else {
+            element.textContent = target;
+        }
+    };
+
+    updateCounter();
+};
+
+// Trigger counters when in view
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const counter = entry.target;
+            const target = parseInt(counter.dataset.target);
+            animateCounter(counter, target);
+            counterObserver.unobserve(counter);
+        }
+    });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.counter-number').forEach(counter => {
+    counterObserver.observe(counter);
+});
+
+// ==========================================
+// PARTICLE SYSTEM
+// ==========================================
+
+const createParticles = (container, count = 20) => {
+    if (!container) return;
+
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        container.appendChild(particle);
+    }
+};
+
+// Create particles in hero
+const heroSection = document.getElementById('hero');
+if (heroSection) {
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'particles-bg';
+    heroSection.insertBefore(particlesContainer, heroSection.firstChild);
+    createParticles(particlesContainer, 15);
+}
+
+// ==========================================
+// PARALLAX EFFECT
+// ==========================================
+
+window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const hero = document.getElementById('hero');
+
+    if (hero) {
+        hero.style.backgroundPositionY = scrolled * 0.5 + 'px';
+    }
+});
+
+// ==========================================
+// MAGNETIC BUTTON EFFECT
+// ==========================================
+
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('mousemove', (e) => {
+        const rect = btn.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+
+        btn.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+    });
+
+    btn.addEventListener('mouseleave', () => {
+        btn.style.transform = '';
+    });
+});
+
+// ==========================================
+// SMOOTH SCROLL WITH PROGRESS
+// ==========================================
+
+// Add shine effect to cards on hover
+document.querySelectorAll('.card, .teaching-card, .news-card').forEach(card => {
+    card.classList.add('card-shine');
+});
+
+// ==========================================
+// DYNAMIC STATS SECTION
+// ==========================================
+
+const statsHTML = `
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="counter-box reveal stagger-1">
+                <div class="counter-number" data-target="1200">0</div>
+                <div class="counter-label">Alunos</div>
+            </div>
+            <div class="counter-box reveal stagger-2">
+                <div class="counter-number" data-target="85">0</div>
+                <div class="counter-label">Professores</div>
+            </div>
+            <div class="counter-box reveal stagger-3">
+                <div class="counter-number" data-target="31">0</div>
+                <div class="counter-label">Anos de História</div>
+            </div>
+            <div class="counter-box reveal stagger-4">
+                <div class="counter-number" data-target="98">0</div>
+                <div class="counter-label">% Taxa de Sucesso</div>
+            </div>
+        </div>
+    </div>
+</section>
+`;
+
+// Insert stats section after features section
+const featuresSection = document.getElementById('diferenciais');
+if (featuresSection) {
+    featuresSection.insertAdjacentHTML('afterend', statsHTML);
+
+    // Re-observe new counter elements
+    document.querySelectorAll('.counter-number').forEach(counter => {
+        counterObserver.observe(counter);
+    });
+
+    // Re-run reveal for new elements
+    revealElements();
+}
+
+// ==========================================
+// LOADING ANIMATION
+// ==========================================
+
+window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+
+    // Add reveal classes to existing elements
+    document.querySelectorAll('.card, .teaching-card, .feature-item').forEach((el, index) => {
+        el.classList.add('reveal');
+        el.classList.add(`stagger-${(index % 6) + 1}`);
+    });
+
+    // Trigger reveal check
+    setTimeout(revealElements, 100);
+});
+
+// ==========================================
+// CURSOR TRAIL EFFECT (Optional)
+// ==========================================
+
+const createCursorTrail = () => {
+    const trail = document.createElement('div');
+    trail.style.cssText = `
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        background: var(--gold);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0;
+        transition: opacity 0.3s;
+    `;
+    document.body.appendChild(trail);
+
+    let mouseX = 0, mouseY = 0;
+    let trailX = 0, trailY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        trail.style.opacity = '0.5';
+    });
+
+    const animateTrail = () => {
+        trailX += (mouseX - trailX) * 0.1;
+        trailY += (mouseY - trailY) * 0.1;
+        trail.style.left = trailX + 'px';
+        trail.style.top = trailY + 'px';
+        requestAnimationFrame(animateTrail);
+    };
+
+    animateTrail();
+};
+
+// Enable cursor trail on desktop only
+if (window.innerWidth > 768) {
+    createCursorTrail();
+}
+
+// ==========================================
+// TYPING EFFECT FOR HERO
+// ==========================================
+
+const typewriterEffect = (element, text, speed = 50) => {
+    if (!element) return;
+    element.textContent = '';
+    let i = 0;
+
+    const type = () => {
+        if (i < text.length) {
+            element.textContent += text.charAt(i);
+            i++;
+            setTimeout(type, speed);
+        }
+    };
+
+    type();
+};
+
+// Apply to hero subtitle if present
+const heroSubtitle = document.querySelector('.hero-content p');
+if (heroSubtitle) {
+    const originalText = heroSubtitle.textContent;
+    setTimeout(() => {
+        typewriterEffect(heroSubtitle, originalText, 30);
+    }, 1000);
+}
+
