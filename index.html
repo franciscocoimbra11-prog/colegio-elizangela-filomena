@@ -40,7 +40,7 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="#" class="btn btn-secondary">Portal do Aluno</a>
+                <a href="#" class="btn btn-secondary" id="portal-btn"><i data-lucide="user"></i> Portal do Aluno</a>
                 <button id="mobile-menu-toggle" aria-label="Abrir Menu">
                     <i data-lucide="menu"></i>
                 </button>
@@ -326,6 +326,39 @@
         // Initialize Lucide icons
         lucide.createIcons();
     </script>
+
+    <!-- Portal do Aluno Modal -->
+    <div class="modal-overlay" id="portal-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close">&times;</button>
+            <div class="modal-header">
+                <div class="portal-logo">
+                    <i data-lucide="graduation-cap"></i>
+                </div>
+                <h2>Portal do Aluno</h2>
+                <p>Aceda à sua área pessoal</p>
+            </div>
+            <form class="portal-form" id="portal-form">
+                <div class="form-group">
+                    <label for="portal-email">Email ou Número de Aluno</label>
+                    <input type="text" id="portal-email" placeholder="Introduza o seu email" required>
+                </div>
+                <div class="form-group">
+                    <label for="portal-password">Palavra-passe</label>
+                    <input type="password" id="portal-password" placeholder="Introduza a sua palavra-passe" required>
+                </div>
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox"> Lembrar-me
+                    </label>
+                    <a href="#" class="forgot-password">Esqueci a palavra-passe</a>
+                </div>
+                <button type="submit" class="btn btn-primary btn-login">
+                    <i data-lucide="log-in"></i> Entrar
+                </button>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

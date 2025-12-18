@@ -208,3 +208,110 @@ window.addEventListener('scroll', function () {
         }
     }
 });
+
+// ==========================================
+// PORTAL DO ALUNO MODAL
+// ==========================================
+
+// Portal Modal Elements
+const portalBtn = document.getElementById('portal-btn');
+const portalModal = document.getElementById('portal-modal');
+const modalClose = document.getElementById('modal-close');
+const portalForm = document.getElementById('portal-form');
+
+// Open Portal Modal
+if (portalBtn && portalModal) {
+    portalBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        portalModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+
+        // Re-initialize icons in modal
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+}
+
+// Close Portal Modal
+if (modalClose && portalModal) {
+    modalClose.addEventListener('click', function () {
+        portalModal.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+}
+
+// Close on overlay click
+if (portalModal) {
+    portalModal.addEventListener('click', function (e) {
+        if (e.target === portalModal) {
+            portalModal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    });
+}
+
+// Close on Escape key
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && portalModal && portalModal.classList.contains('active')) {
+        portalModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Portal Form Submission
+if (portalForm) {
+    portalForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const email = document.getElementById('portal-email');
+        const password = document.getElementById('portal-password');
+        const submitBtn = this.querySelector('.btn-login');
+
+        if (email && password && email.value && password.value) {
+            // Show loading state
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A entrar...';
+            submitBtn.disabled = true;
+
+            // Simulate login (replace with actual API call)
+            setTimeout(() => {
+                // Show success message
+                alert('Bem-vindo ao Portal do Aluno!\n\nEsta funcionalidade será integrada com o sistema escolar em breve.');
+
+                // Reset form and close modal
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                portalModal.classList.remove('active');
+                document.body.style.overflow = '';
+
+                // Re-create icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            }, 1500);
+        }
+    });
+}
+
+// ==========================================
+// ENHANCED ANIMATIONS
+// ==========================================
+
+// Animate sections on scroll
+const animateOnScroll = () => {
+    const sections = document.querySelectorAll('.section-animate');
+
+    sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight - 100;
+
+        if (isVisible) {
+            section.classList.add('visible');
+        }
+    });
+};
+
+window.addEventListener('scroll', animateOnScroll);
+window.addEventListener('load', animateOnScroll);
