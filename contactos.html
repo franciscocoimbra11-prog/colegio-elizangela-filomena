@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Contacte o Colégio Elizângela Filomena. Morada, telefone, email e formulário de contacto. Luanda, Angola.">
+    <title>Contactos | Colégio Elizângela Filomena</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="logo-img">
+                </a>
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="sobre.html">O Colégio</a></li>
+                    <li><a href="ensino.html">Ensino</a></li>
+                    <li><a href="admissoes.html">Admissões</a></li>
+                    <li><a href="noticias.html">Notícias</a></li>
+                    <li><a href="contactos.html" class="active">Contactos</a></li>
+                </ul>
+                <a href="#" class="btn btn-primary">Portal do Aluno</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Contactos</h1>
+            <p>Estamos aqui para ajudar. Entre em contacto connosco!</p>
+        </div>
+    </section>
+
+    <!-- Informações de Contacto -->
+    <section class="section contacto-info-section">
+        <div class="container">
+            <div class="contacto-grid">
+                <div class="contacto-card">
+                    <div class="contacto-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Morada</h3>
+                    <p>Rua Nicolau Gomes Spencer nº 197</p>
+                    <p>Luanda, Angola</p>
+                </div>
+                <div class="contacto-card">
+                    <div class="contacto-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Telefones</h3>
+                    <p><a href="tel:+244914424099">+244 914 424 099</a></p>
+                    <p><a href="tel:+244914761612">+244 914 761 612</a></p>
+                </div>
+                <div class="contacto-card">
+                    <div class="contacto-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <h3>Email</h3>
+                    <p><a href="mailto:geral1demaio@colegioelizangela.com">geral1demaio@colegioelizangela.com</a></p>
+                </div>
+                <div class="contacto-card">
+                    <div class="contacto-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Horário</h3>
+                    <p>Segunda a Sexta</p>
+                    <p>7h00 - 17h00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário e Mapa -->
+    <section class="section contacto-form-section">
+        <div class="container">
+            <div class="contacto-main-grid">
+                <!-- Formulário -->
+                <div class="form-wrapper">
+                    <h2>Envie-nos uma Mensagem</h2>
+                    <p>Tem alguma dúvida ou sugestão? Preencha o formulário abaixo e entraremos em contacto brevemente.
+                    </p>
+
+                    <form id="contacto-form" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contacto-nome">Nome Completo *</label>
+                                <input type="text" id="contacto-nome" name="nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contacto-email">Email *</label>
+                                <input type="email" id="contacto-email" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contacto-telefone">Telefone</label>
+                                <input type="tel" id="contacto-telefone" name="telefone" placeholder="+244 9XX XXX XXX">
+                            </div>
+                            <div class="form-group">
+                                <label for="contacto-assunto">Assunto *</label>
+                                <select id="contacto-assunto" name="assunto" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="informacoes">Informações Gerais</option>
+                                    <option value="matriculas">Matrículas</option>
+                                    <option value="visita">Agendar Visita</option>
+                                    <option value="reclamacao">Reclamação</option>
+                                    <option value="sugestao">Sugestão</option>
+                                    <option value="outro">Outro</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contacto-mensagem">Mensagem *</label>
+                            <textarea id="contacto-mensagem" name="mensagem" rows="6" required
+                                placeholder="Escreva a sua mensagem aqui..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                        </button>
+                    </form>
+
+                    <!-- Success Message -->
+                    <div id="contacto-success" class="form-success" style="display: none;">
+                        <div class="success-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3>Mensagem Enviada!</h3>
+                        <p>Obrigado pelo seu contacto. Responderemos o mais brevemente possível.</p>
+                        <button onclick="resetContactForm()" class="btn btn-secondary">Enviar Nova Mensagem</button>
+                    </div>
+                </div>
+
+                <!-- Mapa -->
+                <div class="map-wrapper">
+                    <h2>Localização</h2>
+                    <div class="map-container">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3942.5!2d13.2344!3d-8.8147!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sLuanda%2C%20Angola!5e0!3m2!1spt-PT!2sao!4v1234567890"
+                            width="100%" height="400" style="border:0; border-radius: 12px;" allowfullscreen=""
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <!-- Direções -->
+                    <div class="direcoes">
+                        <h4><i class="fas fa-directions"></i> Como Chegar</h4>
+                        <ul>
+                            <li><strong>De carro:</strong> Seguir pela Avenida 21 de Janeiro até à Rua Nicolau Gomes
+                                Spencer. O colégio fica do lado direito.</li>
+                            <li><strong>Transporte público:</strong> Apanhar candongueiro em direção ao Maculusso. Sair
+                                na paragem da Rua Spencer.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Redes Sociais -->
+    <section class="section redes-section">
+        <div class="container">
+            <h2 class="section-title">Siga-nos nas Redes Sociais</h2>
+            <div class="redes-grid">
+                <a href="https://www.facebook.com/colegioelizangela" target="_blank" class="rede-card facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                    <p>@colegioelizangela</p>
+                </a>
+                <a href="#" class="rede-card instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                    <p>@colegioelizangela</p>
+                </a>
+                <a href="#" class="rede-card youtube">
+                    <i class="fab fa-youtube"></i>
+                    <span>YouTube</span>
+                    <p>Colégio Elizângela</p>
+                </a>
+                <a href="#" class="rede-card whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                    <p>+244 914 424 099</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Rápido -->
+    <section class="section faq-rapido-section">
+        <div class="container">
+            <h2 class="section-title">Dúvidas Rápidas</h2>
+            <div class="faq-grid">
+                <div class="faq-mini">
+                    <h4><i class="fas fa-question-circle"></i> Qual o horário da secretaria?</h4>
+                    <p>A secretaria funciona de segunda a sexta, das 8h00 às 16h00.</p>
+                </div>
+                <div class="faq-mini">
+                    <h4><i class="fas fa-question-circle"></i> Posso visitar o colégio?</h4>
+                    <p>Sim! Agende uma visita pelo telefone ou através do formulário acima.</p>
+                </div>
+                <div class="faq-mini">
+                    <h4><i class="fas fa-question-circle"></i> Onde posso entregar documentos?</h4>
+                    <p>Os documentos devem ser entregues presencialmente na secretaria do colégio.</p>
+                </div>
+                <div class="faq-mini">
+                    <h4><i class="fas fa-question-circle"></i> Qual o prazo de resposta?</h4>
+                    <p>Respondemos a todas as mensagens no prazo máximo de 48 horas úteis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="footer-logo">
+                    <p>Formando cidadãos de excelência para o futuro de Angola.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/colegioelizangela" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="sobre.html">O Colégio</a></li>
+                        <li><a href="ensino.html">Níveis de Ensino</a></li>
+                        <li><a href="admissoes.html">Admissões</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contactos</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Rua Nicolau Gomes Spencer nº 197, Luanda</li>
+                        <li><i class="fas fa-phone"></i> +244 914 424 099</li>
+                        <li><i class="fas fa-envelope"></i> geral1demaio@colegioelizangela.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Colégio Elizângela Filomena. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

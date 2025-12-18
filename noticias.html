@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Notícias e Eventos do Colégio Elizângela Filomena. Fique a par das últimas novidades da nossa comunidade escolar.">
+    <title>Notícias | Colégio Elizângela Filomena</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="logo-img">
+                </a>
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="sobre.html">O Colégio</a></li>
+                    <li><a href="ensino.html">Ensino</a></li>
+                    <li><a href="admissoes.html">Admissões</a></li>
+                    <li><a href="noticias.html" class="active">Notícias</a></li>
+                    <li><a href="contactos.html">Contactos</a></li>
+                </ul>
+                <a href="#" class="btn btn-primary">Portal do Aluno</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero">
+        <div class="container">
+            <h1>Notícias e Eventos</h1>
+            <p>Acompanhe as novidades da nossa comunidade escolar</p>
+        </div>
+    </section>
+
+    <!-- Notícias em Destaque -->
+    <section class="section noticias-destaque">
+        <div class="container">
+            <h2 class="section-title">Em Destaque</h2>
+            <div class="destaque-grid">
+                <article class="noticia-destaque">
+                    <img src="news1.jpg" alt="Professora Helena Maria" class="destaque-img">
+                    <div class="destaque-content">
+                        <span class="noticia-categoria">Equipa</span>
+                        <h3>Professora Helena Maria: 20 Anos de Dedicação ao Ensino</h3>
+                        <p>Celebramos duas décadas de excelência pedagógica com a nossa querida professora de Língua
+                            Portuguesa, que tem inspirado gerações de alunos com a sua paixão pela literatura e
+                            educação.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 15 Dezembro 2024</span>
+                            <span><i class="fas fa-user"></i> Administração</span>
+                        </div>
+                        <a href="#" class="btn btn-secondary">Ler Mais</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lista de Notícias -->
+    <section class="section noticias-lista">
+        <div class="container">
+            <div class="noticias-filter">
+                <button class="filter-btn active" data-filter="all">Todas</button>
+                <button class="filter-btn" data-filter="eventos">Eventos</button>
+                <button class="filter-btn" data-filter="academico">Académico</button>
+                <button class="filter-btn" data-filter="desporto">Desporto</button>
+                <button class="filter-btn" data-filter="comunidade">Comunidade</button>
+            </div>
+
+            <div class="noticias-grid">
+                <article class="noticia-card" data-category="academico">
+                    <img src="news2.jpg" alt="Matrículas 2025" class="noticia-img">
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Académico</span>
+                        <h3>Matrículas Abertas para 2025</h3>
+                        <p>Já estão abertas as inscrições para o ano letivo 2025. Garanta a vaga do seu educando.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 10 Dezembro 2024</span>
+                        </div>
+                        <a href="admissoes.html" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card" data-category="eventos">
+                    <img src="news3.jpg" alt="Festa de Natal" class="noticia-img">
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Eventos</span>
+                        <h3>Festa de Natal 2024</h3>
+                        <p>Os nossos alunos preparam uma apresentação especial para celebrar o Natal com as famílias.
+                        </p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 5 Dezembro 2024</span>
+                        </div>
+                        <a href="#" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card" data-category="desporto">
+                    <div class="noticia-img placeholder-img">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Desporto</span>
+                        <h3>Torneio Inter-Escolar de Futebol</h3>
+                        <p>A nossa equipa de futebol conquistou o 2º lugar no torneio inter-escolar de Luanda.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 28 Novembro 2024</span>
+                        </div>
+                        <a href="#" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card" data-category="academico">
+                    <div class="noticia-img placeholder-img">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Académico</span>
+                        <h3>Quadro de Honra do 1º Trimestre</h3>
+                        <p>Parabéns aos alunos que se destacaram pelo excelente desempenho académico.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 20 Novembro 2024</span>
+                        </div>
+                        <a href="#" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card" data-category="comunidade">
+                    <div class="noticia-img placeholder-img">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Comunidade</span>
+                        <h3>Campanha de Solidariedade</h3>
+                        <p>A nossa comunidade escolar une-se para apoiar famílias carenciadas neste Natal.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 15 Novembro 2024</span>
+                        </div>
+                        <a href="#" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+
+                <article class="noticia-card" data-category="eventos">
+                    <div class="noticia-img placeholder-img">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="noticia-body">
+                        <span class="noticia-categoria">Eventos</span>
+                        <h3>Reunião de Encarregados de Educação</h3>
+                        <p>Próxima reunião agendada para dia 10 de Janeiro às 17h00 no auditório.</p>
+                        <div class="noticia-meta">
+                            <span><i class="fas fa-calendar"></i> 10 Novembro 2024</span>
+                        </div>
+                        <a href="#" class="noticia-link">Saber Mais <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="load-more">
+                <button class="btn btn-secondary">Carregar Mais Notícias</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calendário Escolar -->
+    <section class="section calendario-section">
+        <div class="container">
+            <h2 class="section-title">Calendário Escolar 2024/2025</h2>
+            <div class="calendario-grid">
+                <div class="calendario-item">
+                    <div class="calendario-data">
+                        <span class="dia">2</span>
+                        <span class="mes">SET</span>
+                    </div>
+                    <div class="calendario-info">
+                        <h4>Início do Ano Letivo</h4>
+                        <p>Abertura oficial das aulas para todos os níveis de ensino</p>
+                    </div>
+                </div>
+                <div class="calendario-item">
+                    <div class="calendario-data">
+                        <span class="dia">11</span>
+                        <span class="mes">NOV</span>
+                    </div>
+                    <div class="calendario-info">
+                        <h4>Dia da Independência</h4>
+                        <p>Feriado nacional - Não há aulas</p>
+                    </div>
+                </div>
+                <div class="calendario-item">
+                    <div class="calendario-data">
+                        <span class="dia">20</span>
+                        <span class="mes">DEZ</span>
+                    </div>
+                    <div class="calendario-info">
+                        <h4>Início das Férias de Natal</h4>
+                        <p>Período de férias até 6 de Janeiro</p>
+                    </div>
+                </div>
+                <div class="calendario-item">
+                    <div class="calendario-data">
+                        <span class="dia">7</span>
+                        <span class="mes">JAN</span>
+                    </div>
+                    <div class="calendario-info">
+                        <h4>Regresso às Aulas</h4>
+                        <p>Início do 2º período letivo</p>
+                    </div>
+                </div>
+                <div class="calendario-item">
+                    <div class="calendario-data">
+                        <span class="dia">15</span>
+                        <span class="mes">JUL</span>
+                    </div>
+                    <div class="calendario-info">
+                        <h4>Fim do Ano Letivo</h4>
+                        <p>Encerramento das atividades letivas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="section newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Receba as Nossas Novidades</h2>
+                <p>Subscreva a newsletter e fique sempre informado sobre eventos e atividades do colégio.</p>
+                <form id="newsletter-form" class="newsletter-form">
+                    <input type="email" placeholder="O seu email" required>
+                    <button type="submit" class="btn btn-primary">Subscrever</button>
+                </form>
+                <p class="newsletter-success" style="display: none;">
+                    <i class="fas fa-check-circle"></i> Subscrição realizada com sucesso!
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="footer-logo">
+                    <p>Formando cidadãos de excelência para o futuro de Angola.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/colegioelizangela" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="sobre.html">O Colégio</a></li>
+                        <li><a href="ensino.html">Níveis de Ensino</a></li>
+                        <li><a href="admissoes.html">Admissões</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contactos</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Rua Nicolau Gomes Spencer nº 197, Luanda</li>
+                        <li><i class="fas fa-phone"></i> +244 914 424 099</li>
+                        <li><i class="fas fa-envelope"></i> geral1demaio@colegioelizangela.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Colégio Elizângela Filomena. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

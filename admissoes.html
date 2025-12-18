@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Admissões e Matrículas no Colégio Elizângela Filomena. Processo de inscrição, documentos necessários e formulário de pré-inscrição.">
+    <title>Admissões | Colégio Elizângela Filomena</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <a href="index.html" class="logo">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="logo-img">
+                </a>
+                <button class="mobile-menu-btn" aria-label="Menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="sobre.html">O Colégio</a></li>
+                    <li><a href="ensino.html">Ensino</a></li>
+                    <li><a href="admissoes.html" class="active">Admissões</a></li>
+                    <li><a href="noticias.html">Notícias</a></li>
+                    <li><a href="contactos.html">Contactos</a></li>
+                </ul>
+                <a href="#" class="btn btn-primary">Portal do Aluno</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Hero -->
+    <section class="page-hero admissoes-hero">
+        <div class="container">
+            <h1>Admissões 2025</h1>
+            <p>Inscrições abertas para o novo ano letivo</p>
+        </div>
+    </section>
+
+    <!-- Processo de Admissão -->
+    <section class="section processo-section">
+        <div class="container">
+            <h2 class="section-title">Processo de Admissão</h2>
+            <div class="processo-timeline">
+                <div class="processo-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Pré-Inscrição Online</h3>
+                        <p>Preencha o formulário de pré-inscrição abaixo com os dados do aluno e do encarregado de
+                            educação.</p>
+                    </div>
+                </div>
+                <div class="processo-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Entrega de Documentos</h3>
+                        <p>Dirija-se à secretaria do colégio com os documentos necessários para completar a inscrição.
+                        </p>
+                    </div>
+                </div>
+                <div class="processo-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Teste de Avaliação</h3>
+                        <p>O aluno realizará um teste diagnóstico para determinar o nível de ensino adequado.</p>
+                    </div>
+                </div>
+                <div class="processo-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Confirmação da Matrícula</h3>
+                        <p>Após aprovação, proceda ao pagamento da matrícula e receba o kit escolar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentos Necessários -->
+    <section class="section documentos-section">
+        <div class="container">
+            <h2 class="section-title">Documentos Necessários</h2>
+            <div class="documentos-grid">
+                <div class="documento-card">
+                    <i class="fas fa-id-card"></i>
+                    <h4>Bilhete de Identidade</h4>
+                    <p>Cópia do BI do aluno e do encarregado de educação</p>
+                </div>
+                <div class="documento-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h4>Cédula / Assento de Nascimento</h4>
+                    <p>Original ou cópia autenticada</p>
+                </div>
+                <div class="documento-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h4>Certificado de Habilitações</h4>
+                    <p>Declaração da escola anterior com notas</p>
+                </div>
+                <div class="documento-card">
+                    <i class="fas fa-images"></i>
+                    <h4>Fotografias</h4>
+                    <p>4 fotografias tipo passe recentes</p>
+                </div>
+                <div class="documento-card">
+                    <i class="fas fa-syringe"></i>
+                    <h4>Boletim de Vacinas</h4>
+                    <p>Caderneta de vacinação atualizada</p>
+                </div>
+                <div class="documento-card">
+                    <i class="fas fa-file-medical"></i>
+                    <h4>Atestado Médico</h4>
+                    <p>Atestado médico do aluno</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulário de Pré-Inscrição -->
+    <section class="section form-section" id="formulario">
+        <div class="container">
+            <h2 class="section-title">Formulário de Pré-Inscrição</h2>
+            <div class="form-container">
+                <form id="admissao-form" class="admission-form">
+                    <!-- Dados do Aluno -->
+                    <div class="form-section-title">
+                        <i class="fas fa-user-graduate"></i>
+                        <h3>Dados do Aluno</h3>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="aluno-nome">Nome Completo *</label>
+                            <input type="text" id="aluno-nome" name="aluno-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="aluno-nascimento">Data de Nascimento *</label>
+                            <input type="date" id="aluno-nascimento" name="aluno-nascimento" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="aluno-genero">Género *</label>
+                            <select id="aluno-genero" name="aluno-genero" required>
+                                <option value="">Selecione...</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="feminino">Feminino</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nivel-ensino">Nível de Ensino Pretendido *</label>
+                            <select id="nivel-ensino" name="nivel-ensino" required>
+                                <option value="">Selecione...</option>
+                                <option value="pre-escolar">Pré-Escolar</option>
+                                <option value="1-classe">1ª Classe</option>
+                                <option value="2-classe">2ª Classe</option>
+                                <option value="3-classe">3ª Classe</option>
+                                <option value="4-classe">4ª Classe</option>
+                                <option value="5-classe">5ª Classe</option>
+                                <option value="6-classe">6ª Classe</option>
+                                <option value="7-classe">7ª Classe</option>
+                                <option value="8-classe">8ª Classe</option>
+                                <option value="9-classe">9ª Classe</option>
+                                <option value="10-classe">10ª Classe</option>
+                                <option value="11-classe">11ª Classe</option>
+                                <option value="12-classe">12ª Classe</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="escola-anterior">Escola Anterior</label>
+                        <input type="text" id="escola-anterior" name="escola-anterior"
+                            placeholder="Nome da escola anterior (se aplicável)">
+                    </div>
+
+                    <!-- Dados do Encarregado -->
+                    <div class="form-section-title">
+                        <i class="fas fa-user-tie"></i>
+                        <h3>Dados do Encarregado de Educação</h3>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="enc-nome">Nome Completo *</label>
+                            <input type="text" id="enc-nome" name="enc-nome" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enc-parentesco">Parentesco *</label>
+                            <select id="enc-parentesco" name="enc-parentesco" required>
+                                <option value="">Selecione...</option>
+                                <option value="pai">Pai</option>
+                                <option value="mae">Mãe</option>
+                                <option value="tutor">Tutor Legal</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="enc-telefone">Telefone *</label>
+                            <input type="tel" id="enc-telefone" name="enc-telefone" placeholder="+244 9XX XXX XXX"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="enc-email">Email *</label>
+                            <input type="email" id="enc-email" name="enc-email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="enc-morada">Morada *</label>
+                        <input type="text" id="enc-morada" name="enc-morada" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" name="observacoes" rows="4"
+                            placeholder="Informações adicionais relevantes (alergias, necessidades especiais, etc.)"></textarea>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termos" name="termos" required>
+                        <label for="termos">Li e aceito os <a href="#">termos e condições</a> e a <a href="#">política
+                                de privacidade</a> *</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-large">
+                        <i class="fas fa-paper-plane"></i> Enviar Pré-Inscrição
+                    </button>
+                </form>
+
+                <!-- Success Message -->
+                <div id="form-success" class="form-success" style="display: none;">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Pré-Inscrição Enviada com Sucesso!</h3>
+                    <p>Obrigado pelo interesse no Colégio Elizângela Filomena. Entraremos em contacto em breve para
+                        agendar a próxima etapa do processo de admissão.</p>
+                    <a href="index.html" class="btn btn-primary">Voltar ao Início</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs -->
+    <section class="section faq-section">
+        <div class="container">
+            <h2 class="section-title">Perguntas Frequentes</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Qual é o valor da matrícula e mensalidade?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Os valores variam conforme o nível de ensino. Entre em contacto com a nossa secretaria pelo
+                            telefone +244 914 424 099 para obter informações detalhadas sobre propinas e condições de
+                            pagamento.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Qual o horário de funcionamento do colégio?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>O colégio funciona de segunda a sexta-feira, das 7h00 às 17h00. As aulas decorrem no período
+                            da manhã (7h30-12h30) ou tarde (13h00-17h30), dependendo do nível de ensino.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>O colégio oferece transporte escolar?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sim, dispomos de serviço de transporte escolar que cobre diversas zonas de Luanda. O serviço
+                            tem um custo adicional. Consulte a secretaria para verificar a cobertura na sua área.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Há vagas disponíveis para transferência durante o ano letivo?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Sim, aceitamos transferências ao longo do ano letivo, sujeitas à disponibilidade de vagas. O
+                            processo inclui análise do histórico escolar e teste diagnóstico.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <img src="logo.png" alt="Colégio Elizângela Filomena" class="footer-logo">
+                    <p>Formando cidadãos de excelência para o futuro de Angola.</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/colegioelizangela" target="_blank"><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="sobre.html">O Colégio</a></li>
+                        <li><a href="ensino.html">Níveis de Ensino</a></li>
+                        <li><a href="admissoes.html">Admissões</a></li>
+                        <li><a href="noticias.html">Notícias</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contactos</h4>
+                    <ul class="contact-list">
+                        <li><i class="fas fa-map-marker-alt"></i> Rua Nicolau Gomes Spencer nº 197, Luanda</li>
+                        <li><i class="fas fa-phone"></i> +244 914 424 099</li>
+                        <li><i class="fas fa-envelope"></i> geral1demaio@colegioelizangela.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Colégio Elizângela Filomena. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
