@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../logo.png" alt="Logo CEF" class="sidebar-logo">
+            <span class="sidebar-title">CEF Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="inscricoes.html" class="nav-item"><i class="fas fa-user-graduate"></i><span>Inscrições</span></a>
+            <a href="noticias.html" class="nav-item"><i class="fas fa-newspaper"></i><span>Notícias</span></a>
+            <a href="contactos.html" class="nav-item active"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+            <a href="documentos.html" class="nav-item"><i class="fas fa-file-pdf"></i><span>Documentos</span></a>
+            <a href="paginas.html" class="nav-item"><i class="fas fa-edit"></i><span>Páginas</span></a>
+            <a href="newsletter.html" class="nav-item"><i class="fas fa-mail-bulk"></i><span>Newsletter</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Admin</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Mensagens de Contacto</h1>
+            <div class="top-bar-actions">
+                <button class="btn btn-secondary" id="btn-mark-all">
+                    <i class="fas fa-check-double"></i> Marcar Todas Lidas
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="filters-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Pesquisar mensagens...">
+                </div>
+                <select class="form-control filter-select" id="filter-status">
+                    <option value="">Todas</option>
+                    <option value="false">Não lidas</option>
+                    <option value="true">Lidas</option>
+                </select>
+            </div>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="messages-list" id="messages-list">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- View Modal -->
+    <div class="modal-overlay" id="view-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Mensagem</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="btn-delete">
+                    <i class="fas fa-trash"></i> Eliminar
+                </button>
+                <a href="#" class="btn btn-primary" id="btn-reply">
+                    <i class="fas fa-reply"></i> Responder
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        let currentMessage = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await Auth.requireAuth();
+            if (!session) return;
+            await loadMessages();
+            setupEventListeners();
+        });
+
+        async function loadMessages() {
+            const container = document.getElementById('messages-list');
+            const loading = document.getElementById('loading');
+
+            loading.style.display = 'flex';
+            container.innerHTML = '';
+
+            try {
+                let query = supabaseClient.from('contactos').select('*').order('created_at', { ascending: false });
+
+                const statusFilter = document.getElementById('filter-status').value;
+                const searchTerm = document.getElementById('search-input').value;
+
+                if (statusFilter) query = query.eq('is_read', statusFilter === 'true');
+                if (searchTerm) query = query.or(`nome.ilike.%${searchTerm}%,assunto.ilike.%${searchTerm}%`);
+
+                const { data, error } = await query;
+                if (error) throw error;
+
+                loading.style.display = 'none';
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><h4>Sem mensagens</h4></div>';
+                    return;
+                }
+
+                container.innerHTML = data.map(msg => `
+                    <div class="message-item ${msg.is_read ? '' : 'unread'}" data-id="${msg.id}">
+                        <div class="message-avatar">${msg.nome.charAt(0).toUpperCase()}</div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-name">${msg.nome}</span>
+                                <span class="message-time">${formatDate(msg.created_at)}</span>
+                            </div>
+                            <p class="message-preview"><strong>${msg.assunto || 'Sem assunto'}</strong></p>
+                            <p class="message-preview">${msg.mensagem.substring(0, 100)}...</p>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.message-item').forEach(item => {
+                    item.addEventListener('click', () => viewMessage(item.dataset.id));
+                });
+
+            } catch (error) {
+                console.error('Error:', error);
+                loading.style.display = 'none';
+            }
+        }
+
+        async function viewMessage(id) {
+            try {
+                const { data, error } = await supabaseClient.from('contactos').select('*').eq('id', id).single();
+                if (error) throw error;
+
+                currentMessage = data;
+
+                // Mark as read
+                if (!data.is_read) {
+                    await supabaseClient.from('contactos').update({ is_read: true }).eq('id', id);
+                    loadMessages();
+                }
+
+                document.getElementById('modal-body').innerHTML = `
+                    <div style="margin-bottom: 1rem;">
+                        <p><strong>De:</strong> ${data.nome}</p>
+                        <p><strong>Email:</strong> ${data.email}</p>
+                        ${data.telefone ? `<p><strong>Telefone:</strong> ${data.telefone}</p>` : ''}
+                        <p><strong>Data:</strong> ${new Date(data.created_at).toLocaleString('pt-PT')}</p>
+                    </div>
+                    <div style="padding: 1rem; background: var(--gray-50); border-radius: var(--radius);">
+                        <p><strong>Assunto:</strong> ${data.assunto || 'Sem assunto'}</p>
+                        <p style="margin-top: 1rem; white-space: pre-wrap;">${data.mensagem}</p>
+                    </div>
+                `;
+
+                document.getElementById('btn-reply').href = `mailto:${data.email}?subject=Re: ${data.assunto || 'Contacto CEF'}`;
+                document.getElementById('view-modal').classList.add('active');
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function deleteMessage() {
+            if (!currentMessage || !confirm('Eliminar esta mensagem?')) return;
+            try {
+                await supabaseClient.from('contactos').delete().eq('id', currentMessage.id);
+                closeModal();
+                loadMessages();
+                showToast('Mensagem eliminada!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function markAllRead() {
+            try {
+                await supabaseClient.from('contactos').update({ is_read: true }).eq('is_read', false);
+                loadMessages();
+                showToast('Todas marcadas como lidas!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('view-modal').classList.remove('active');
+            currentMessage = null;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('filter-status').addEventListener('change', loadMessages);
+
+            let timeout;
+            document.getElementById('search-input').addEventListener('input', () => {
+                clearTimeout(timeout);
+                timeout = setTimeout(loadMessages, 300);
+            });
+
+            document.getElementById('modal-close').addEventListener('click', closeModal);
+            document.getElementById('view-modal').addEventListener('click', (e) => { if (e.target.id === 'view-modal') closeModal(); });
+            document.getElementById('btn-delete').addEventListener('click', deleteMessage);
+            document.getElementById('btn-mark-all').addEventListener('click', markAllRead);
+        }
+    </script>
+</body>
+
+</html>

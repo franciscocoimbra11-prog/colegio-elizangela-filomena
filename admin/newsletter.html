@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><img src="../logo.png" alt="Logo CEF" class="sidebar-logo"><span
+                class="sidebar-title">CEF Admin</span></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="inscricoes.html" class="nav-item"><i class="fas fa-user-graduate"></i><span>Inscrições</span></a>
+            <a href="noticias.html" class="nav-item"><i class="fas fa-newspaper"></i><span>Notícias</span></a>
+            <a href="contactos.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+            <a href="documentos.html" class="nav-item"><i class="fas fa-file-pdf"></i><span>Documentos</span></a>
+            <a href="paginas.html" class="nav-item"><i class="fas fa-edit"></i><span>Páginas</span></a>
+            <a href="newsletter.html" class="nav-item active"><i
+                    class="fas fa-mail-bulk"></i><span>Newsletter</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details"><span class="user-name" id="user-name">Admin</span><span
+                        class="user-role">Administrador</span></div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Newsletter</h1>
+            <div class="top-bar-actions">
+                <button class="btn btn-primary" id="btn-export"><i class="fas fa-download"></i> Exportar Lista</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Stats -->
+            <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-info"><span class="stat-value" id="stat-total">0</span><span
+                            class="stat-label">Total Subscritores</span></div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-check"></i></div>
+                    <div class="stat-info"><span class="stat-value" id="stat-active">0</span><span
+                            class="stat-label">Ativos</span></div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-calendar"></i></div>
+                    <div class="stat-info"><span class="stat-value" id="stat-month">0</span><span
+                            class="stat-label">Este Mês</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Lista de Subscritores</h3>
+                    <div class="search-box" style="max-width: 250px;">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Pesquisar email...">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="subscribers-table">
+                            <thead>
+                                <tr>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Data Subscrição</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="subscribers-tbody"></tbody>
+                        </table>
+                    </div>
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await Auth.requireAuth();
+            if (!session) return;
+            await loadStats();
+            await loadSubscribers();
+            setupEventListeners();
+        });
+
+        async function loadStats() {
+            try {
+                const { count: total } = await supabaseClient.from('newsletter_subscribers').select('*', { count: 'exact', head: true });
+                const { count: active } = await supabaseClient.from('newsletter_subscribers').select('*', { count: 'exact', head: true }).eq('is_active', true);
+
+                const monthStart = new Date();
+                monthStart.setDate(1);
+                monthStart.setHours(0, 0, 0, 0);
+                const { count: month } = await supabaseClient.from('newsletter_subscribers').select('*', { count: 'exact', head: true }).gte('created_at', monthStart.toISOString());
+
+                document.getElementById('stat-total').textContent = total || 0;
+                document.getElementById('stat-active').textContent = active || 0;
+                document.getElementById('stat-month').textContent = month || 0;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function loadSubscribers() {
+            const tbody = document.getElementById('subscribers-tbody');
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            tbody.innerHTML = '';
+
+            try {
+                let query = supabaseClient.from('newsletter_subscribers').select('*').order('created_at', { ascending: false });
+
+                const search = document.getElementById('search-input').value;
+                if (search) query = query.ilike('email', `%${search}%`);
+
+                const { data, error } = await query;
+                if (error) throw error;
+
+                loading.style.display = 'none';
+
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="4" class="empty-state"><i class="fas fa-inbox"></i><h4>Sem subscritores</h4></td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.map(sub => `
+                    <tr data-id="${sub.id}">
+                        <td><strong>${sub.email}</strong></td>
+                        <td><span class="status-badge ${sub.is_active ? 'aprovado' : 'rejeitado'}">${sub.is_active ? 'Ativo' : 'Inativo'}</span></td>
+                        <td>${formatDate(sub.created_at)}</td>
+                        <td>
+                            <button class="btn-icon btn-toggle" title="${sub.is_active ? 'Desativar' : 'Ativar'}">
+                                <i class="fas fa-${sub.is_active ? 'toggle-on' : 'toggle-off'}"></i>
+                            </button>
+                            <button class="btn-icon btn-delete" title="Eliminar">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+
+                document.querySelectorAll('.btn-toggle').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const row = e.target.closest('tr');
+                        const id = row.dataset.id;
+                        const isActive = btn.querySelector('i').classList.contains('fa-toggle-on');
+                        await supabaseClient.from('newsletter_subscribers').update({ is_active: !isActive }).eq('id', id);
+                        loadSubscribers();
+                        loadStats();
+                    });
+                });
+
+                document.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        if (!confirm('Eliminar subscritor?')) return;
+                        const id = e.target.closest('tr').dataset.id;
+                        await supabaseClient.from('newsletter_subscribers').delete().eq('id', id);
+                        loadSubscribers();
+                        loadStats();
+                        showToast('Subscritor eliminado!', 'success');
+                    });
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                loading.style.display = 'none';
+            }
+        }
+
+        async function exportList() {
+            try {
+                const { data, error } = await supabaseClient.from('newsletter_subscribers').select('*').eq('is_active', true).order('email');
+                if (error) throw error;
+
+                const csv = ['Email,Data Subscrição', ...data.map(s => `${s.email},${new Date(s.created_at).toLocaleDateString('pt-PT')}`)].join('\n');
+                const blob = new Blob([csv], { type: 'text/csv' });
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `newsletter_${new Date().toISOString().split('T')[0]}.csv`;
+                a.click();
+
+                showToast('Lista exportada!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            let t; document.getElementById('search-input').addEventListener('input', () => { clearTimeout(t); t = setTimeout(loadSubscribers, 300); });
+            document.getElementById('btn-export').addEventListener('click', exportList);
+        }
+    </script>
+</body>
+
+</html>

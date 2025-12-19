@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Páginas | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+    <style>
+        .pages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .page-item {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .page-item:hover {
+            box-shadow: var(--shadow-lg);
+        }
+
+        .page-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: var(--gold);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .page-info {
+            flex: 1;
+        }
+
+        .page-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.25rem;
+        }
+
+        .page-slug {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .page-updated {
+            font-size: 0.85rem;
+            color: var(--gray-400);
+        }
+
+        .editor-container {
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .editor-toolbar {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+            background: var(--gray-50);
+            flex-wrap: wrap;
+        }
+
+        .editor-toolbar button {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--white);
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--gray-600);
+            transition: var(--transition);
+        }
+
+        .editor-toolbar button:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .editor-content {
+            min-height: 400px;
+            padding: 1.5rem;
+            outline: none;
+        }
+
+        .editor-footer {
+            padding: 1rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><img src="../logo.png" alt="Logo CEF" class="sidebar-logo"><span
+                class="sidebar-title">CEF Admin</span></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="inscricoes.html" class="nav-item"><i class="fas fa-user-graduate"></i><span>Inscrições</span></a>
+            <a href="noticias.html" class="nav-item"><i class="fas fa-newspaper"></i><span>Notícias</span></a>
+            <a href="contactos.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+            <a href="documentos.html" class="nav-item"><i class="fas fa-file-pdf"></i><span>Documentos</span></a>
+            <a href="paginas.html" class="nav-item active"><i class="fas fa-edit"></i><span>Páginas</span></a>
+            <a href="newsletter.html" class="nav-item"><i class="fas fa-mail-bulk"></i><span>Newsletter</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details"><span class="user-name" id="user-name">Admin</span><span
+                        class="user-role">Administrador</span></div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Editor de Páginas</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- List View -->
+            <div id="pages-list-view">
+                <div class="pages-list" id="pages-list"></div>
+            </div>
+
+            <!-- Editor View -->
+            <div id="editor-view" style="display: none;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                    <button class="btn btn-secondary" id="btn-back"><i class="fas fa-arrow-left"></i> Voltar</button>
+                    <h2 id="editor-title" style="flex: 1; margin: 0;">Editar Página</h2>
+                </div>
+                <input type="hidden" id="page-id">
+                <div class="form-group">
+                    <label>Título da Página</label>
+                    <input type="text" id="page-title-input" class="form-control">
+                </div>
+                <div class="editor-container">
+                    <div class="editor-toolbar">
+                        <button type="button" data-command="bold" title="Negrito"><i class="fas fa-bold"></i></button>
+                        <button type="button" data-command="italic" title="Itálico"><i
+                                class="fas fa-italic"></i></button>
+                        <button type="button" data-command="underline" title="Sublinhado"><i
+                                class="fas fa-underline"></i></button>
+                        <button type="button" data-command="formatBlock" data-value="H2" title="Título"><i
+                                class="fas fa-heading"></i></button>
+                        <button type="button" data-command="formatBlock" data-value="H3" title="Subtítulo"><i
+                                class="fas fa-h"></i></button>
+                        <button type="button" data-command="insertOrderedList" title="Lista Numerada"><i
+                                class="fas fa-list-ol"></i></button>
+                        <button type="button" data-command="insertUnorderedList" title="Lista"><i
+                                class="fas fa-list-ul"></i></button>
+                        <button type="button" data-command="createLink" title="Link"><i
+                                class="fas fa-link"></i></button>
+                    </div>
+                    <div id="page-content" class="editor-content" contenteditable="true"></div>
+                    <div class="editor-footer">
+                        <button class="btn btn-secondary" id="btn-preview"><i class="fas fa-eye"></i>
+                            Pré-visualizar</button>
+                        <button class="btn btn-primary" id="btn-save"><i class="fas fa-save"></i> Guardar
+                            Alterações</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        let currentPage = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await Auth.requireAuth();
+            if (!session) return;
+            await loadPages();
+            setupEventListeners();
+            setupEditor();
+        });
+
+        async function loadPages() {
+            const container = document.getElementById('pages-list');
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+
+            try {
+                const { data, error } = await supabaseClient.from('paginas_conteudo').select('*').order('slug');
+                if (error) throw error;
+
+                loading.style.display = 'none';
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-file-alt"></i><h4>Nenhuma página</h4></div>';
+                    return;
+                }
+
+                container.innerHTML = data.map(page => `
+                    <div class="page-item" data-id="${page.id}">
+                        <div class="page-icon"><i class="fas fa-file-alt"></i></div>
+                        <div class="page-info">
+                            <h4 class="page-title">${page.titulo}</h4>
+                            <p class="page-slug">/${page.slug}</p>
+                        </div>
+                        <span class="page-updated">Atualizado: ${formatDate(page.ultima_atualizacao)}</span>
+                        <button class="btn-icon"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.page-item').forEach(item => {
+                    item.addEventListener('click', () => editPage(item.dataset.id));
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                loading.style.display = 'none';
+            }
+        }
+
+        async function editPage(id) {
+            try {
+                const { data, error } = await supabaseClient.from('paginas_conteudo').select('*').eq('id', id).single();
+                if (error) throw error;
+
+                currentPage = data;
+                document.getElementById('page-id').value = data.id;
+                document.getElementById('page-title-input').value = data.titulo;
+                document.getElementById('page-content').innerHTML = data.conteudo_html || '';
+                document.getElementById('editor-title').textContent = `Editar: ${data.titulo}`;
+
+                document.getElementById('pages-list-view').style.display = 'none';
+                document.getElementById('editor-view').style.display = 'block';
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function savePage() {
+            if (!currentPage) return;
+
+            try {
+                const { error } = await supabaseClient.from('paginas_conteudo').update({
+                    titulo: document.getElementById('page-title-input').value,
+                    conteudo_html: document.getElementById('page-content').innerHTML,
+                    ultima_atualizacao: new Date().toISOString()
+                }).eq('id', currentPage.id);
+
+                if (error) throw error;
+                showToast('Página atualizada!', 'success');
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Erro ao guardar', 'error');
+            }
+        }
+
+        function backToList() {
+            document.getElementById('pages-list-view').style.display = 'block';
+            document.getElementById('editor-view').style.display = 'none';
+            currentPage = null;
+            loadPages();
+        }
+
+        function setupEditor() {
+            document.querySelectorAll('.editor-toolbar button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const command = btn.dataset.command;
+                    if (command === 'createLink') {
+                        const url = prompt('URL do link:');
+                        if (url) document.execCommand(command, false, url);
+                    } else {
+                        document.execCommand(command, false, btn.dataset.value || null);
+                    }
+                });
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-back').addEventListener('click', backToList);
+            document.getElementById('btn-save').addEventListener('click', savePage);
+            document.getElementById('btn-preview').addEventListener('click', () => {
+                const content = document.getElementById('page-content').innerHTML;
+                const w = window.open('', '_blank');
+                w.document.write(`<!DOCTYPE html><html><head><title>Pré-visualização</title><style>body{font-family:sans-serif;max-width:800px;margin:2rem auto;padding:1rem;}</style></head><body>${content}</body></html>`);
+            });
+        }
+    </script>
+</body>
+
+</html>

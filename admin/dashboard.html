@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../logo.png" alt="Logo CEF" class="sidebar-logo">
+            <span class="sidebar-title">CEF Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="inscricoes.html" class="nav-item">
+                <i class="fas fa-user-graduate"></i>
+                <span>Inscrições</span>
+                <span class="badge" id="inscricoes-badge">0</span>
+            </a>
+            <a href="noticias.html" class="nav-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Notícias</span>
+            </a>
+            <a href="contactos.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Mensagens</span>
+                <span class="badge" id="mensagens-badge">0</span>
+            </a>
+            <a href="documentos.html" class="nav-item">
+                <i class="fas fa-file-pdf"></i>
+                <span>Documentos</span>
+            </a>
+            <a href="paginas.html" class="nav-item">
+                <i class="fas fa-edit"></i>
+                <span>Páginas</span>
+            </a>
+            <a href="newsletter.html" class="nav-item">
+                <i class="fas fa-mail-bulk"></i>
+                <span>Newsletter</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Admin</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="page-title">Dashboard</h1>
+            <div class="top-bar-actions">
+                <button class="btn-icon" id="btn-refresh" title="Atualizar">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+                <a href="../index.html" class="btn-icon" target="_blank" title="Ver Site">
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-inscricoes">0</span>
+                        <span class="stat-label">Inscrições 2025</span>
+                    </div>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Novas</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-aprovadas">0</span>
+                        <span class="stat-label">Aprovadas</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pendentes">0</span>
+                        <span class="stat-label">Pendentes</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-mensagens">0</span>
+                        <span class="stat-label">Mensagens Novas</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Grid -->
+            <div class="dashboard-grid">
+                <!-- Recent Inscriptions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Inscrições Recentes</h3>
+                        <a href="inscricoes.html" class="btn-text">Ver Todas</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="data-table" id="recent-inscricoes">
+                                <thead>
+                                    <tr>
+                                        <th>Aluno</th>
+                                        <th>Nível</th>
+                                        <th>Estado</th>
+                                        <th>Data</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Messages -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Mensagens Recentes</h3>
+                        <a href="contactos.html" class="btn-text">Ver Todas</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="messages-list" id="recent-messages">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Ações Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <a href="noticias.html?action=new" class="quick-action-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>Nova Notícia</span>
+                            </a>
+                            <a href="documentos.html?action=upload" class="quick-action-btn">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Documento</span>
+                            </a>
+                            <a href="inscricoes.html?filter=pendente" class="quick-action-btn">
+                                <i class="fas fa-list"></i>
+                                <span>Ver Pendentes</span>
+                            </a>
+                            <a href="newsletter.html?action=export" class="quick-action-btn">
+                                <i class="fas fa-download"></i>
+                                <span>Exportar Lista</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inscriptions by Level Chart -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Inscrições por Nível</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-container" id="chart-niveis">
+                            <!-- Chart populated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+
+</html>

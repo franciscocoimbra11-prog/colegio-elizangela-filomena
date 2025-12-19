@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentos | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+    <style>
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .doc-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .doc-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--danger-light);
+            color: var(--danger);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .doc-title {
+            font-weight: 600;
+            color: var(--gray-800);
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-category {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            margin-bottom: 0.5rem;
+        }
+
+        .doc-year {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            background: var(--info-light);
+            color: var(--info);
+            border-radius: 4px;
+            font-size: 0.75rem;
+        }
+
+        .doc-actions {
+            margin-top: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .upload-zone {
+            border: 2px dashed var(--gray-300);
+            border-radius: var(--radius);
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary);
+            background: var(--gray-50);
+        }
+
+        .upload-zone i {
+            font-size: 3rem;
+            color: var(--gray-400);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header"><img src="../logo.png" alt="Logo CEF" class="sidebar-logo"><span
+                class="sidebar-title">CEF Admin</span></div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="inscricoes.html" class="nav-item"><i class="fas fa-user-graduate"></i><span>Inscrições</span></a>
+            <a href="noticias.html" class="nav-item"><i class="fas fa-newspaper"></i><span>Notícias</span></a>
+            <a href="contactos.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+            <a href="documentos.html" class="nav-item active"><i class="fas fa-file-pdf"></i><span>Documentos</span></a>
+            <a href="paginas.html" class="nav-item"><i class="fas fa-edit"></i><span>Páginas</span></a>
+            <a href="newsletter.html" class="nav-item"><i class="fas fa-mail-bulk"></i><span>Newsletter</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details"><span class="user-name" id="user-name">Admin</span><span
+                        class="user-role">Administrador</span></div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Documentos Escolares</h1>
+            <button class="btn btn-primary" id="btn-upload"><i class="fas fa-upload"></i> Upload</button>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="filters-bar">
+                <div class="search-box"><i class="fas fa-search"></i><input type="text" id="search-input"
+                        placeholder="Pesquisar documentos..."></div>
+                <select class="form-control filter-select" id="filter-category">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Lista de Livros">Lista de Livros</option>
+                    <option value="Manuais">Manuais</option>
+                    <option value="Regulamentos">Regulamentos</option>
+                    <option value="Calendário">Calendário</option>
+                </select>
+                <select class="form-control filter-select" id="filter-year">
+                    <option value="">Todos os Anos</option>
+                    <option value="2024/2025">2024/2025</option>
+                    <option value="2023/2024">2023/2024</option>
+                </select>
+            </div>
+
+            <div class="docs-grid" id="docs-grid"></div>
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upload Modal -->
+    <div class="modal-overlay" id="upload-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Upload de Documento</h3><button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="doc-form">
+                    <div class="form-group"><label>Nome do Documento</label><input type="text" id="doc-name"
+                            class="form-control" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Categoria</label>
+                            <select id="doc-category" class="form-control">
+                                <option value="Lista de Livros">Lista de Livros</option>
+                                <option value="Manuais">Manuais</option>
+                                <option value="Regulamentos">Regulamentos</option>
+                                <option value="Calendário">Calendário</option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label>Ano Lectivo</label>
+                            <select id="doc-year" class="form-control">
+                                <option value="2024/2025">2024/2025</option>
+                                <option value="2023/2024">2023/2024</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>URL do PDF</label><input type="url" id="doc-url" class="form-control"
+                            placeholder="https://..." required></div>
+                    <div class="form-group"><label>Descrição (opcional)</label><textarea id="doc-desc"
+                            class="form-control" rows="2"></textarea></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn btn-secondary" id="btn-cancel">Cancelar</button><button
+                    class="btn btn-primary" id="btn-save"><i class="fas fa-save"></i> Guardar</button></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const session = await Auth.requireAuth();
+            if (!session) return;
+            await loadDocs();
+            setupEventListeners();
+        });
+
+        async function loadDocs() {
+            const grid = document.getElementById('docs-grid');
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            grid.innerHTML = '';
+
+            try {
+                let query = supabaseClient.from('documentos_escolares').select('*').order('created_at', { ascending: false });
+
+                const cat = document.getElementById('filter-category').value;
+                const year = document.getElementById('filter-year').value;
+                const search = document.getElementById('search-input').value;
+
+                if (cat) query = query.eq('categoria', cat);
+                if (year) query = query.eq('ano_lectivo', year);
+                if (search) query = query.ilike('nome', `%${search}%`);
+
+                const { data, error } = await query;
+                if (error) throw error;
+
+                loading.style.display = 'none';
+
+                if (!data || data.length === 0) {
+                    grid.innerHTML = '<div class="empty-state" style="grid-column: span 3;"><i class="fas fa-file-pdf"></i><h4>Nenhum documento</h4></div>';
+                    return;
+                }
+
+                grid.innerHTML = data.map(doc => `
+                    <div class="doc-card" data-id="${doc.id}">
+                        <div class="doc-icon"><i class="fas fa-file-pdf"></i></div>
+                        <h4 class="doc-title">${doc.nome}</h4>
+                        <p class="doc-category">${doc.categoria}</p>
+                        <span class="doc-year">${doc.ano_lectivo}</span>
+                        <div class="doc-actions">
+                            <a href="${doc.url_pdf}" target="_blank" class="btn btn-primary" style="flex:1;"><i class="fas fa-download"></i> Download</a>
+                            <button class="btn-icon btn-delete"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `).join('');
+
+                document.querySelectorAll('.btn-delete').forEach(btn => {
+                    btn.addEventListener('click', async (e) => {
+                        const id = e.target.closest('.doc-card').dataset.id;
+                        if (confirm('Eliminar documento?')) {
+                            await supabaseClient.from('documentos_escolares').delete().eq('id', id);
+                            loadDocs();
+                            showToast('Documento eliminado!', 'success');
+                        }
+                    });
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                loading.style.display = 'none';
+            }
+        }
+
+        async function saveDoc() {
+            const docData = {
+                nome: document.getElementById('doc-name').value,
+                categoria: document.getElementById('doc-category').value,
+                ano_lectivo: document.getElementById('doc-year').value,
+                url_pdf: document.getElementById('doc-url').value,
+                descricao: document.getElementById('doc-desc').value
+            };
+
+            try {
+                const { error } = await supabaseClient.from('documentos_escolares').insert([docData]);
+                if (error) throw error;
+                showToast('Documento adicionado!', 'success');
+                closeModal();
+                loadDocs();
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Erro ao guardar', 'error');
+            }
+        }
+
+        function closeModal() { document.getElementById('upload-modal').classList.remove('active'); }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('filter-category').addEventListener('change', loadDocs);
+            document.getElementById('filter-year').addEventListener('change', loadDocs);
+            let t; document.getElementById('search-input').addEventListener('input', () => { clearTimeout(t); t = setTimeout(loadDocs, 300); });
+            document.getElementById('btn-upload').addEventListener('click', () => { document.getElementById('doc-form').reset(); document.getElementById('upload-modal').classList.add('active'); });
+            document.getElementById('modal-close').addEventListener('click', closeModal);
+            document.getElementById('btn-cancel').addEventListener('click', closeModal);
+            document.getElementById('btn-save').addEventListener('click', saveDoc);
+            document.getElementById('upload-modal').addEventListener('click', (e) => { if (e.target.id === 'upload-modal') closeModal(); });
+        }
+    </script>
+</body>
+
+</html>

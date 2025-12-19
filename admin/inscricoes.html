@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrições | Back Office - CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="../logo.png" alt="Logo CEF" class="sidebar-logo">
+            <span class="sidebar-title">CEF Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="inscricoes.html" class="nav-item active">
+                <i class="fas fa-user-graduate"></i>
+                <span>Inscrições</span>
+            </a>
+            <a href="noticias.html" class="nav-item">
+                <i class="fas fa-newspaper"></i>
+                <span>Notícias</span>
+            </a>
+            <a href="contactos.html" class="nav-item">
+                <i class="fas fa-envelope"></i>
+                <span>Mensagens</span>
+            </a>
+            <a href="documentos.html" class="nav-item">
+                <i class="fas fa-file-pdf"></i>
+                <span>Documentos</span>
+            </a>
+            <a href="paginas.html" class="nav-item">
+                <i class="fas fa-edit"></i>
+                <span>Páginas</span>
+            </a>
+            <a href="newsletter.html" class="nav-item">
+                <i class="fas fa-mail-bulk"></i>
+                <span>Newsletter</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Admin</span>
+                    <span class="user-role">Administrador</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Inscrições 2025</h1>
+            <div class="top-bar-actions">
+                <button class="btn btn-primary" id="btn-export">
+                    <i class="fas fa-download"></i>
+                    Exportar
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Filters -->
+            <div class="filters-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Pesquisar por nome...">
+                </div>
+                <select class="form-control filter-select" id="filter-nivel">
+                    <option value="">Todos os Níveis</option>
+                    <option value="Pré-escolar">Pré-escolar</option>
+                    <option value="Ensino Primário">Ensino Primário</option>
+                    <option value="I Ciclo">I Ciclo</option>
+                    <option value="II Ciclo">II Ciclo</option>
+                </select>
+                <select class="form-control filter-select" id="filter-status">
+                    <option value="">Todos os Estados</option>
+                    <option value="pendente">Pendentes</option>
+                    <option value="aprovado">Aprovados</option>
+                    <option value="rejeitado">Rejeitados</option>
+                </select>
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table" id="inscricoes-table">
+                            <thead>
+                                <tr>
+                                    <th>Aluno</th>
+                                    <th>Encarregado</th>
+                                    <th>Nível</th>
+                                    <th>Telefone</th>
+                                    <th>Estado</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inscricoes-tbody">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="loading" id="loading" style="display: none;">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- View Modal -->
+    <div class="modal-overlay" id="view-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Detalhes da Inscrição</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" id="btn-reject">
+                    <i class="fas fa-times"></i> Rejeitar
+                </button>
+                <button class="btn btn-success" id="btn-approve">
+                    <i class="fas fa-check"></i> Aprovar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth.js"></script>
+    <script src="inscricoes.js"></script>
+</body>
+
+</html>
