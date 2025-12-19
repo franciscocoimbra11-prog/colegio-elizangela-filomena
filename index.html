@@ -359,6 +359,35 @@
             </form>
         </div>
     </div>
+
+    <!-- Secret Admin Access -->
+    <script>
+        // Secret keyboard shortcut: Ctrl + Shift + A
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                e.preventDefault();
+                window.location.href = 'admin/';
+            }
+        });
+
+        // Triple-click on copyright to access admin
+        let clickCount = 0;
+        let clickTimer = null;
+        const copyright = document.querySelector('.footer-bottom p');
+        if (copyright) {
+            copyright.style.cursor = 'default';
+            copyright.addEventListener('click', function () {
+                clickCount++;
+                if (clickCount === 1) {
+                    clickTimer = setTimeout(() => { clickCount = 0; }, 500);
+                } else if (clickCount === 3) {
+                    clearTimeout(clickTimer);
+                    clickCount = 0;
+                    window.location.href = 'admin/';
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
