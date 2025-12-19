@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Aluno | CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .stat-card.stat-primary .stat-icon {
+            background: rgba(37, 99, 235, 0.2);
+            color: #2563eb;
+        }
+
+        .grade-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .grade-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .grade-subject {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .grade-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .grade-value.good {
+            color: #10b981;
+        }
+
+        .grade-value.medium {
+            color: #f59e0b;
+        }
+
+        .grade-value.bad {
+            color: #ef4444;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .schedule-table th {
+            background: var(--primary);
+            color: white;
+        }
+
+        .schedule-cell {
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 4px;
+            padding: 0.5rem;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-graduate" style="color: #2563eb;"></i>
+            </div>
+            <span class="sidebar-title">Portal Aluno</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item active"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="horario.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>Horário</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-receipt"></i><span>Propinas</span></a>
+            <a href="perfil.html" class="nav-item"><i class="fas fa-user"></i><span>Meu Perfil</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Aluno</span>
+                    <span class="user-role" id="user-turma">Turma</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Bem-vindo, <span id="welcome-name">Aluno</span>!</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-disciplinas">8</span>
+                        <span class="stat-label">Disciplinas</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-media">--</span>
+                        <span class="stat-label">Média Geral</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-trimestre">1º</span>
+                        <span class="stat-label">Trimestre Atual</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-money-bill"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-propina">OK</span>
+                        <span class="stat-label">Situação Propina</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Últimas Notas</h3>
+                        <a href="notas.html" class="btn btn-sm">Ver Todas</a>
+                    </div>
+                    <div class="card-body" id="notas-container">
+                        <div class="grade-card">
+                            <div class="grade-header">
+                                <span class="grade-subject">Matemática</span>
+                                <span class="grade-value good">15</span>
+                            </div>
+                            <small>1º Trimestre - 2024/2025</small>
+                        </div>
+                        <div class="grade-card">
+                            <div class="grade-header">
+                                <span class="grade-subject">Português</span>
+                                <span class="grade-value good">14</span>
+                            </div>
+                            <small>1º Trimestre - 2024/2025</small>
+                        </div>
+                        <div class="grade-card">
+                            <div class="grade-header">
+                                <span class="grade-subject">Física</span>
+                                <span class="grade-value medium">12</span>
+                            </div>
+                            <small>1º Trimestre - 2024/2025</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Horário de Hoje</h3>
+                        <a href="horario.html" class="btn btn-sm">Ver Completo</a>
+                    </div>
+                    <div class="card-body" id="horario-hoje">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Hora</th>
+                                    <th>Disciplina</th>
+                                    <th>Sala</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>07:30 - 08:15</td>
+                                    <td>Matemática</td>
+                                    <td>A12</td>
+                                </tr>
+                                <tr>
+                                    <td>08:15 - 09:00</td>
+                                    <td>Português</td>
+                                    <td>A12</td>
+                                </tr>
+                                <tr>
+                                    <td>09:15 - 10:00</td>
+                                    <td>Física</td>
+                                    <td>Lab1</td>
+                                </tr>
+                                <tr>
+                                    <td>10:00 - 10:45</td>
+                                    <td>História</td>
+                                    <td>A12</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load student info
+            try {
+                const { data: aluno } = await supabaseClient
+                    .from('alunos')
+                    .select('*')
+                    .eq('user_id', session.user.id)
+                    .single();
+
+                if (aluno) {
+                    document.getElementById('user-name').textContent = aluno.nome;
+                    document.getElementById('user-turma').textContent = aluno.turma || 'N/A';
+                    document.getElementById('welcome-name').textContent = aluno.nome.split(' ')[0];
+                }
+
+                // Load grades
+                const { data: notas } = await supabaseClient
+                    .from('notas')
+                    .select('*')
+                    .eq('aluno_id', aluno?.id)
+                    .order('created_at', { ascending: false })
+                    .limit(3);
+
+                if (notas && notas.length > 0) {
+                    const container = document.getElementById('notas-container');
+                    container.innerHTML = notas.map(n => `
+                        <div class="grade-card">
+                            <div class="grade-header">
+                                <span class="grade-subject">${n.disciplina}</span>
+                                <span class="grade-value ${n.nota >= 14 ? 'good' : n.nota >= 10 ? 'medium' : 'bad'}">${n.nota}</span>
+                            </div>
+                            <small>${n.trimestre}º Trimestre - ${n.ano_lectivo}</small>
+                        </div>
+                    `).join('');
+
+                    const avg = notas.reduce((a, b) => a + parseFloat(b.nota), 0) / notas.length;
+                    document.getElementById('stat-media').textContent = avg.toFixed(1);
+                }
+            } catch (e) { console.error(e); }
+
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            document.getElementById('btn-logout')?.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.href = '../portal.html';
+            });
+        }
+    </script>
+</body>
+
+</html>

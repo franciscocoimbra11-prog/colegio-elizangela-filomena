@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secretaria | Colégio Elizângela Filomena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+        }
+
+        .stat-card.stat-primary .stat-icon {
+            background: rgba(124, 58, 237, 0.2);
+            color: #7c3aed;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-clipboard-list" style="color: #7c3aed;"></i>
+            </div>
+            <span class="sidebar-title">Secretaria</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item active"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="alunos.html" class="nav-item"><i class="fas fa-user-graduate"></i><span>Alunos</span></a>
+            <a href="matriculas.html" class="nav-item"><i class="fas fa-clipboard-check"></i><span>Matrículas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-money-bill-wave"></i><span>Pagamentos</span></a>
+            <a href="documentos.html" class="nav-item"><i class="fas fa-file-alt"></i><span>Documentos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Secretaria</span>
+                    <span class="user-role">Funcionário</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Dashboard da Secretaria</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-user-graduate"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-alunos">0</span>
+                        <span class="stat-label">Alunos Matriculados</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pagos">0</span>
+                        <span class="stat-label">Pagamentos em Dia</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pendentes">0</span>
+                        <span class="stat-label">Pagamentos Pendentes</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-inscricoes">0</span>
+                        <span class="stat-label">Novas Inscrições</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Ações Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <a href="alunos.html?new=1" class="quick-action-btn">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Novo Aluno</span>
+                            </a>
+                            <a href="pagamentos.html?new=1" class="quick-action-btn">
+                                <i class="fas fa-receipt"></i>
+                                <span>Registar Pagamento</span>
+                            </a>
+                            <a href="notas.html" class="quick-action-btn">
+                                <i class="fas fa-edit"></i>
+                                <span>Lançar Notas</span>
+                            </a>
+                            <a href="documentos.html" class="quick-action-btn">
+                                <i class="fas fa-print"></i>
+                                <span>Emitir Documento</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Pagamentos Pendentes</h3>
+                        <a href="pagamentos.html" class="btn btn-sm">Ver Todos</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table" id="pagamentos-table">
+                            <thead>
+                                <tr>
+                                    <th>Aluno</th>
+                                    <th>Mês</th>
+                                    <th>Valor</th>
+                                    <th>Vencimento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pagamentos-tbody">
+                                <tr>
+                                    <td colspan="4" class="text-center">Sem pagamentos pendentes</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Check auth
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            await loadStats();
+            await loadPendingPayments();
+            setupEventListeners();
+        });
+
+        async function loadStats() {
+            try {
+                const { count: alunos } = await supabaseClient.from('alunos').select('*', { count: 'exact', head: true });
+                const { count: pagos } = await supabaseClient.from('pagamentos').select('*', { count: 'exact', head: true }).eq('status', 'pago');
+                const { count: pendentes } = await supabaseClient.from('pagamentos').select('*', { count: 'exact', head: true }).eq('status', 'pendente');
+                const { count: inscricoes } = await supabaseClient.from('inscricoes_2025').select('*', { count: 'exact', head: true }).eq('status', 'pendente');
+
+                document.getElementById('stat-alunos').textContent = alunos || 0;
+                document.getElementById('stat-pagos').textContent = pagos || 0;
+                document.getElementById('stat-pendentes').textContent = pendentes || 0;
+                document.getElementById('stat-inscricoes').textContent = inscricoes || 0;
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadPendingPayments() {
+            try {
+                const { data } = await supabaseClient
+                    .from('pagamentos')
+                    .select('*, alunos(nome)')
+                    .eq('status', 'pendente')
+                    .order('data_vencimento')
+                    .limit(5);
+
+                const tbody = document.getElementById('pagamentos-tbody');
+                if (!data || data.length === 0) return;
+
+                tbody.innerHTML = data.map(p => `
+                    <tr>
+                        <td>${p.alunos?.nome || 'N/A'}</td>
+                        <td>${p.mes_referencia}</td>
+                        <td>${p.valor.toLocaleString('pt-AO')} Kz</td>
+                        <td>${new Date(p.data_vencimento).toLocaleDateString('pt-PT')}</td>
+                    </tr>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            document.getElementById('btn-logout')?.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.href = '../portal.html';
+            });
+        }
+    </script>
+</body>
+
+</html>

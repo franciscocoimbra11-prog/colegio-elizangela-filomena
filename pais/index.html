@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Encarregados | CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+
+        .stat-card.stat-primary .stat-icon {
+            background: rgba(5, 150, 105, 0.2);
+            color: #059669;
+        }
+
+        .child-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .child-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .child-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .child-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .child-info p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .payment-alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            border-radius: var(--radius);
+            margin-bottom: 1rem;
+        }
+
+        .payment-alert.success {
+            background: #d1fae5;
+            border-color: #10b981;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-users" style="color: #059669;"></i>
+            </div>
+            <span class="sidebar-title">Portal EE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item active"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="educandos.html" class="nav-item"><i class="fas fa-child"></i><span>Meus Educandos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Propinas</span></a>
+            <a href="mensagens.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Encarregado</span>
+                    <span class="user-role">Pai/Mãe</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Olá, <span id="welcome-name">Encarregado</span>!</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="payment-alert" id="payment-alert" style="display: none;">
+                <strong><i class="fas fa-exclamation-triangle"></i> Atenção!</strong>
+                <p>Existem propinas pendentes. <a href="pagamentos.html">Ver detalhes</a></p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-child"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-educandos">0</span>
+                        <span class="stat-label">Educandos</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pagos">0</span>
+                        <span class="stat-label">Propinas Pagas</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pendentes">0</span>
+                        <span class="stat-label">Propinas Pendentes</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-mensagens">0</span>
+                        <span class="stat-label">Mensagens</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Meus Educandos</h3>
+                    </div>
+                    <div class="card-body" id="educandos-container">
+                        <div class="child-card" onclick="location.href='notas.html?id=1'">
+                            <div class="child-avatar"><i class="fas fa-user"></i></div>
+                            <div class="child-info">
+                                <h4>Maria Silva</h4>
+                                <p>7ª Classe - Turma A</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; color: var(--gray-400);"></i>
+                        </div>
+                        <div class="child-card" onclick="location.href='notas.html?id=2'">
+                            <div class="child-avatar"><i class="fas fa-user"></i></div>
+                            <div class="child-info">
+                                <h4>João Silva</h4>
+                                <p>5ª Classe - Turma B</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; color: var(--gray-400);"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Resumo de Notas</h3>
+                        <a href="notas.html" class="btn btn-sm">Ver Todas</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Educando</th>
+                                    <th>Média</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="notas-resumo">
+                                <tr>
+                                    <td>Maria Silva</td>
+                                    <td><strong>14.5</strong></td>
+                                    <td><span class="status-badge aprovado">Bom</span></td>
+                                </tr>
+                                <tr>
+                                    <td>João Silva</td>
+                                    <td><strong>12.8</strong></td>
+                                    <td><span class="status-badge pendente">Regular</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card" style="grid-column: span 2;">
+                    <div class="card-header">
+                        <h3>Próximos Pagamentos</h3>
+                        <a href="pagamentos.html" class="btn btn-sm">Ver Todos</a>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Educando</th>
+                                    <th>Descrição</th>
+                                    <th>Valor</th>
+                                    <th>Vencimento</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pagamentos-tbody">
+                                <tr>
+                                    <td>Maria Silva</td>
+                                    <td>Propina Janeiro</td>
+                                    <td>35.000 Kz</td>
+                                    <td>15/01/2025</td>
+                                    <td><span class="status-badge pendente">Pendente</span></td>
+                                </tr>
+                                <tr>
+                                    <td>João Silva</td>
+                                    <td>Propina Janeiro</td>
+                                    <td>35.000 Kz</td>
+                                    <td>15/01/2025</td>
+                                    <td><span class="status-badge pendente">Pendente</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load parent info
+            try {
+                const { data: profile } = await supabaseClient
+                    .from('user_profiles')
+                    .select('*')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (profile) {
+                    document.getElementById('user-name').textContent = profile.nome;
+                    document.getElementById('welcome-name').textContent = profile.nome.split(' ')[0];
+                }
+
+                // Load children
+                const { data: educandos } = await supabaseClient
+                    .from('alunos')
+                    .select('*')
+                    .eq('encarregado_id', session.user.id);
+
+                if (educandos && educandos.length > 0) {
+                    document.getElementById('stat-educandos').textContent = educandos.length;
+
+                    const container = document.getElementById('educandos-container');
+                    container.innerHTML = educandos.map(e => `
+                        <div class="child-card" onclick="location.href='notas.html?id=${e.id}'">
+                            <div class="child-avatar"><i class="fas fa-user"></i></div>
+                            <div class="child-info">
+                                <h4>${e.nome}</h4>
+                                <p>${e.nivel_ensino} - Turma ${e.turma || 'N/A'}</p>
+                            </div>
+                            <i class="fas fa-chevron-right" style="margin-left: auto; color: var(--gray-400);"></i>
+                        </div>
+                    `).join('');
+                }
+
+                // Check pending payments
+                const { count: pendentes } = await supabaseClient
+                    .from('pagamentos')
+                    .select('*', { count: 'exact', head: true })
+                    .eq('status', 'pendente');
+
+                if (pendentes > 0) {
+                    document.getElementById('payment-alert').style.display = 'block';
+                    document.getElementById('stat-pendentes').textContent = pendentes;
+                }
+            } catch (e) { console.error(e); }
+
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            document.getElementById('btn-logout')?.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.href = '../portal.html';
+            });
+        }
+    </script>
+</body>
+
+</html>

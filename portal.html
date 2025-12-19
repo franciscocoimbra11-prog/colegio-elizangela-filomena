@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal | Colégio Elizângela Filomena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #003366;
+            --primary-dark: #001a33;
+            --gold: #D4AF37;
+            --white: #FFFFFF;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-600: #4b5563;
+            --gray-800: #1f2937;
+            --success: #10b981;
+            --info: #3b82f6;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --radius: 12px;
+            --shadow: 0 4px 15px rgba(0, 51, 102, 0.1);
+            --shadow-lg: 0 20px 40px rgba(0, 51, 102, 0.15);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .portal-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--white);
+        }
+
+        .portal-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .portal-logo i {
+            font-size: 2.5rem;
+            color: var(--primary);
+        }
+
+        .portal-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portal-header p {
+            opacity: 0.8;
+            font-size: 1.1rem;
+        }
+
+        .portal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portal-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            color: var(--gray-800);
+            box-shadow: var(--shadow);
+        }
+
+        .portal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .portal-card .icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .portal-card.admin .icon {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+        }
+
+        .portal-card.secretaria .icon {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            color: white;
+        }
+
+        .portal-card.aluno .icon {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .portal-card.pais .icon {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+        }
+
+        .portal-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .portal-card p {
+            font-size: 0.9rem;
+            color: var(--gray-600);
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .back-link:hover {
+            color: var(--gold);
+        }
+
+        @media (max-width: 600px) {
+            .portal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .portal-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="portal-container">
+        <div class="portal-header">
+            <div class="portal-logo">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>Portal Escolar</h1>
+            <p>Selecione o seu tipo de acesso</p>
+        </div>
+
+        <div class="portal-grid">
+            <a href="admin/" class="portal-card admin">
+                <div class="icon"><i class="fas fa-user-shield"></i></div>
+                <h3>Administração</h3>
+                <p>Gestão completa do sistema escolar</p>
+            </a>
+
+            <a href="secretaria/" class="portal-card secretaria">
+                <div class="icon"><i class="fas fa-clipboard-list"></i></div>
+                <h3>Secretaria</h3>
+                <p>Matrículas, documentos e pagamentos</p>
+            </a>
+
+            <a href="aluno/" class="portal-card aluno">
+                <div class="icon"><i class="fas fa-user-graduate"></i></div>
+                <h3>Alunos</h3>
+                <p>Notas, horário e informações</p>
+            </a>
+
+            <a href="pais/" class="portal-card pais">
+                <div class="icon"><i class="fas fa-users"></i></div>
+                <h3>Pais / Encarregados</h3>
+                <p>Acompanhamento do educando</p>
+            </a>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i> Voltar ao Site Principal
+        </a>
+    </div>
+</body>
+
+</html>

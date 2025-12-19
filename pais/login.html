@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Encarregados | CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .login-left {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+    </style>
+</head>
+
+<body class="login-page">
+    <div class="login-container">
+        <div class="login-left">
+            <div class="login-brand">
+                <div class="login-logo"><i class="fas fa-users"></i></div>
+                <h1>Portal Encarregados</h1>
+                <p>Acompanhe a vida escolar do seu educando</p>
+            </div>
+            <div class="login-features">
+                <div class="feature"><i class="fas fa-check"></i><span>Ver Notas do Educando</span></div>
+                <div class="feature"><i class="fas fa-check"></i><span>Consultar Horário</span></div>
+                <div class="feature"><i class="fas fa-check"></i><span>Pagar Propinas</span></div>
+                <div class="feature"><i class="fas fa-check"></i><span>Comunicar com a Escola</span></div>
+            </div>
+        </div>
+        <div class="login-right">
+            <div class="login-form-container">
+                <h2>Acesso ao Portal</h2>
+                <p class="login-subtitle">Pais e Encarregados de Educação</p>
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" required placeholder="seu.email@exemplo.com">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" required placeholder="••••••••">
+                            <button type="button" class="toggle-password"><i class="fas fa-eye"></i></button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <span>Entrar</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                <div id="login-error" class="login-error" style="display: none;"></div>
+                <p style="text-align: center; margin-top: 1.5rem; color: var(--gray-500); font-size: 0.9rem;">
+                    Primeiro acesso? <a href="registo.html" style="color: #059669;">Registar-se</a>
+                </p>
+                <a href="../portal.html" class="back-link"
+                    style="margin-top: 1rem; display: block; text-align: center; color: var(--gray-500);">
+                    <i class="fas fa-arrow-left"></i> Voltar ao Portal
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('login-error');
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                if (error) throw error;
+                window.location.href = 'index.html';
+            } catch (error) {
+                errorDiv.textContent = 'Email ou senha incorretos';
+                errorDiv.style.display = 'block';
+            }
+        });
+
+        document.querySelector('.toggle-password')?.addEventListener('click', function () {
+            const input = document.getElementById('password');
+            input.type = input.type === 'password' ? 'text' : 'password';
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+    </script>
+</body>
+
+</html>
