@@ -2936,3 +2936,28 @@ footer a:hover {
     background: var(--gold);
     color: var(--royal-blue);
 }
+
+/* Discrete Admin Access Link */
+.admin-access-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.2);
+    text-decoration: none;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    opacity: 0.3;
+}
+
+.admin-access-link:hover {
+    color: var(--gold);
+    opacity: 1;
+    transform: rotate(90deg);
+}
+
+.admin-access-link i {
+    font-size: 0.8rem;
+}
