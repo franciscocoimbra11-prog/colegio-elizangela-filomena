@@ -2961,3 +2961,242 @@ footer a:hover {
 .admin-access-link i {
     font-size: 0.8rem;
 }
+
+/* ==========================================
+   PORTAL SELECTOR MODAL STYLES
+   ========================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 26, 51, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content.portal-selector {
+    background: var(--white);
+    border-radius: var(--border-radius-lg);
+    padding: 2.5rem;
+    max-width: 480px;
+    width: 90%;
+    position: relative;
+    animation: slideUp 0.4s ease;
+    box-shadow: var(--shadow-xl);
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #999;
+    cursor: pointer;
+    transition: var(--transition);
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--royal-blue);
+    transform: rotate(90deg);
+}
+
+.modal-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modal-header .portal-logo {
+    width: 70px;
+    height: 70px;
+    background: var(--gradient-primary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header .portal-logo i {
+    width: 32px;
+    height: 32px;
+    color: var(--white);
+}
+
+.modal-header h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.modal-header p {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Portal Options */
+.portal-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.portal-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--border-radius);
+    background: var(--light-gray);
+    transition: var(--transition);
+    text-decoration: none;
+    border: 2px solid transparent;
+}
+
+.portal-option:hover {
+    transform: translateX(8px);
+    border-color: currentColor;
+}
+
+.portal-option .portal-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.portal-option .portal-icon i {
+    width: 24px;
+    height: 24px;
+    color: var(--white);
+}
+
+.portal-option .portal-info {
+    flex: 1;
+}
+
+.portal-option .portal-info h3 {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.portal-option .portal-info p {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+.portal-option .portal-arrow {
+    width: 20px;
+    height: 20px;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.portal-option:hover .portal-arrow {
+    opacity: 1;
+    transform: translateX(5px);
+}
+
+/* Admin Option - Red */
+.portal-option.admin-option {
+    color: #DC2626;
+}
+
+.portal-option.admin-option .portal-icon {
+    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
+}
+
+.portal-option.admin-option:hover {
+    background: #FEE2E2;
+}
+
+/* Secretaria Option - Purple */
+.portal-option.secretaria-option {
+    color: #7C3AED;
+}
+
+.portal-option.secretaria-option .portal-icon {
+    background: linear-gradient(135deg, #7C3AED 0%, #6D28D9 100%);
+}
+
+.portal-option.secretaria-option:hover {
+    background: #EDE9FE;
+}
+
+/* Aluno Option - Blue */
+.portal-option.aluno-option {
+    color: #2563EB;
+}
+
+.portal-option.aluno-option .portal-icon {
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+}
+
+.portal-option.aluno-option:hover {
+    background: #DBEAFE;
+}
+
+/* Pais Option - Green */
+.portal-option.pais-option {
+    color: #059669;
+}
+
+.portal-option.pais-option .portal-icon {
+    background: linear-gradient(135deg, #059669 0%, #047857 100%);
+}
+
+.portal-option.pais-option:hover {
+    background: #D1FAE5;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+    .modal-content.portal-selector {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+
+    .portal-option {
+        padding: 1rem;
+    }
+
+    .portal-option .portal-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .portal-option .portal-info h3 {
+        font-size: 1rem;
+    }
+}

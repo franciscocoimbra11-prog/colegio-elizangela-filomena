@@ -40,7 +40,7 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <a href="#" class="btn btn-secondary" id="portal-btn"><i data-lucide="user"></i> Portal do Aluno</a>
+                <a href="#" class="btn btn-secondary" id="portal-btn"><i data-lucide="log-in"></i> Entrar</a>
                 <button id="mobile-menu-toggle" aria-label="Abrir Menu">
                     <i data-lucide="menu"></i>
                 </button>
@@ -330,36 +330,51 @@
         lucide.createIcons();
     </script>
 
-    <!-- Portal do Aluno Modal -->
+    <!-- Portal de Acesso Modal -->
     <div class="modal-overlay" id="portal-modal">
-        <div class="modal-content">
+        <div class="modal-content portal-selector">
             <button class="modal-close" id="modal-close">&times;</button>
             <div class="modal-header">
                 <div class="portal-logo">
-                    <i data-lucide="graduation-cap"></i>
+                    <i data-lucide="users"></i>
                 </div>
-                <h2>Portal do Aluno</h2>
-                <p>Aceda à sua área pessoal</p>
+                <h2>Área de Acesso</h2>
+                <p>Selecione o seu perfil para entrar</p>
             </div>
-            <form class="portal-form" id="portal-form">
-                <div class="form-group">
-                    <label for="portal-email">Email ou Número de Aluno</label>
-                    <input type="text" id="portal-email" placeholder="Introduza o seu email" required>
-                </div>
-                <div class="form-group">
-                    <label for="portal-password">Palavra-passe</label>
-                    <input type="password" id="portal-password" placeholder="Introduza a sua palavra-passe" required>
-                </div>
-                <div class="form-options">
-                    <label class="remember-me">
-                        <input type="checkbox"> Lembrar-me
-                    </label>
-                    <a href="#" class="forgot-password">Esqueci a palavra-passe</a>
-                </div>
-                <button type="submit" class="btn btn-primary btn-login">
-                    <i data-lucide="log-in"></i> Entrar
-                </button>
-            </form>
+            <div class="portal-options">
+                <a href="admin/" class="portal-option admin-option">
+                    <div class="portal-icon"><i data-lucide="settings"></i></div>
+                    <div class="portal-info">
+                        <h3>Administração</h3>
+                        <p>Gestão do sistema</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="portal-arrow"></i>
+                </a>
+                <a href="secretaria/login.html" class="portal-option secretaria-option">
+                    <div class="portal-icon"><i data-lucide="clipboard-list"></i></div>
+                    <div class="portal-info">
+                        <h3>Secretaria</h3>
+                        <p>Gestão académica</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="portal-arrow"></i>
+                </a>
+                <a href="aluno/login.html" class="portal-option aluno-option">
+                    <div class="portal-icon"><i data-lucide="graduation-cap"></i></div>
+                    <div class="portal-info">
+                        <h3>Alunos</h3>
+                        <p>Portal do estudante</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="portal-arrow"></i>
+                </a>
+                <a href="pais/login.html" class="portal-option pais-option">
+                    <div class="portal-icon"><i data-lucide="heart"></i></div>
+                    <div class="portal-info">
+                        <h3>Pais / Encarregados</h3>
+                        <p>Acompanhamento escolar</p>
+                    </div>
+                    <i data-lucide="chevron-right" class="portal-arrow"></i>
+                </a>
+            </div>
         </div>
     </div>
 
