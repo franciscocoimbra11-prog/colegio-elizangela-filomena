@@ -3,6 +3,13 @@
 // Colégio Elizângela Filomena - Back Office
 // ============================================
 
+// Ensure supabaseClient is available (fallback if config.js failed)
+if (typeof supabaseClient === 'undefined' && typeof window.supabase !== 'undefined') {
+    const SUPABASE_URL = 'https://pzhwhmmrsidzrgoropgv.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB6aHdobW1yc2lkenJnb3JvcGd2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjYwOTQ2OTIsImV4cCI6MjA4MTY3MDY5Mn0.zkD8pVVc8v8bd1jXmtSkHgr4wewRQoXY0IIWPuwgFN0';
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+}
+
 const Auth = {
     // Check if user is authenticated
     async checkAuth() {

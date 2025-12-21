@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas | Portal Pais CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+
+        .grade-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .grade-card .subject {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .grade-card .trimester {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .grade-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .grade-card .value.good {
+            color: #10b981;
+        }
+
+        .grade-card .value.medium {
+            color: #f59e0b;
+        }
+
+        .grade-card .value.bad {
+            color: #ef4444;
+        }
+
+        .child-selector {
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-users" style="color: #059669;"></i>
+            </div>
+            <span class="sidebar-title">Portal EE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="educandos.html" class="nav-item"><i class="fas fa-child"></i><span>Meus Educandos</span></a>
+            <a href="notas.html" class="nav-item active"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Propinas</span></a>
+            <a href="mensagens.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Encarregado</span>
+                    <span class="user-role">Pai/Mãe</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Notas dos Educandos</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="child-selector">
+                <select id="select-educando" class="form-select" style="max-width: 300px;">
+                    <option value="">Selecione o educando...</option>
+                </select>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-media">--</span>
+                        <span class="stat-label">Média Geral</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-primary">
+                    <div class="stat-icon"><i class="fas fa-book"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-disciplinas">0</span>
+                        <span class="stat-label">Disciplinas</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-info">
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-melhor">--</span>
+                        <span class="stat-label">Melhor Nota</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Notas por Disciplina</h3>
+                </div>
+                <div class="card-body" id="notas-container">
+                    <p class="text-center">Selecione um educando para ver as notas</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            await loadEducandos(session.user.id);
+            setupEventListeners();
+
+            // Check URL for preselected child
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            if (id) {
+                document.getElementById('select-educando').value = id;
+                await loadNotas(id);
+            }
+        });
+
+        async function loadEducandos(userId) {
+            const { data: educandos } = await supabaseClient.from('alunos').select('id, nome').eq('encarregado_id', userId);
+            const select = document.getElementById('select-educando');
+
+            if (educandos && educandos.length > 0) {
+                select.innerHTML = '<option value="">Selecione o educando...</option>' + educandos.map(e => `<option value="${e.id}">${e.nome}</option>`).join('');
+            }
+        }
+
+        async function loadNotas(alunoId) {
+            const container = document.getElementById('notas-container');
+
+            if (!alunoId) {
+                container.innerHTML = '<p class="text-center">Selecione um educando para ver as notas</p>';
+                return;
+            }
+
+            const { data: notas } = await supabaseClient.from('notas').select('*').eq('aluno_id', alunoId).order('trimestre').order('disciplina');
+
+            if (!notas || notas.length === 0) {
+                container.innerHTML = '<p class="text-center">Nenhuma nota lançada</p>';
+                document.getElementById('stat-media').textContent = '--';
+                document.getElementById('stat-disciplinas').textContent = '0';
+                document.getElementById('stat-melhor').textContent = '--';
+                return;
+            }
+
+            container.innerHTML = notas.map(n => `
+                <div class="grade-card">
+                    <div>
+                        <div class="subject">${n.disciplina}</div>
+                        <div class="trimester">${n.trimestre}º Trimestre - ${n.ano_lectivo}</div>
+                    </div>
+                    <span class="value ${n.nota >= 14 ? 'good' : n.nota >= 10 ? 'medium' : 'bad'}">${n.nota}</span>
+                </div>
+            `).join('');
+
+            const avg = notas.reduce((a, b) => a + parseFloat(b.nota), 0) / notas.length;
+            const best = Math.max(...notas.map(n => parseFloat(n.nota)));
+            const uniqueSubjects = [...new Set(notas.map(n => n.disciplina))].length;
+
+            document.getElementById('stat-media').textContent = avg.toFixed(1);
+            document.getElementById('stat-disciplinas').textContent = uniqueSubjects;
+            document.getElementById('stat-melhor').textContent = best;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+            document.getElementById('select-educando')?.addEventListener('change', (e) => loadNotas(e.target.value));
+        }
+    </script>
+</body>
+
+</html>

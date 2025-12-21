@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propinas | Portal Pais CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+
+        .payment-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .payment-card.pending {
+            border-left: 4px solid #f59e0b;
+        }
+
+        .payment-card.paid {
+            border-left: 4px solid #10b981;
+        }
+
+        .payment-info h4 {
+            margin-bottom: 0.25rem;
+        }
+
+        .payment-info p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .payment-value {
+            text-align: right;
+        }
+
+        .payment-value .amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .payment-value .status {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .status.pendente {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status.pago {
+            background: #d1fae5;
+            color: #059669;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-users" style="color: #059669;"></i>
+            </div>
+            <span class="sidebar-title">Portal EE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="educandos.html" class="nav-item"><i class="fas fa-child"></i><span>Meus Educandos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="pagamentos.html" class="nav-item active"><i
+                    class="fas fa-credit-card"></i><span>Propinas</span></a>
+            <a href="mensagens.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Encarregado</span>
+                    <span class="user-role">Pai/Mãe</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Propinas</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="stats-grid">
+                <div class="stat-card stat-success">
+                    <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pagos">0</span>
+                        <span class="stat-label">Pagos</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-warning">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-pendentes">0</span>
+                        <span class="stat-label">Pendentes</span>
+                    </div>
+                </div>
+                <div class="stat-card stat-danger">
+                    <div class="stat-icon"><i class="fas fa-money-bill"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="stat-total">0 Kz</span>
+                        <span class="stat-label">Total Pendente</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h3>Histórico de Pagamentos</h3>
+                </div>
+                <div class="card-body" id="pagamentos-container">
+                    <p class="text-center">A carregar...</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            await loadPagamentos(session.user.id);
+            setupEventListeners();
+        });
+
+        async function loadPagamentos(userId) {
+            const container = document.getElementById('pagamentos-container');
+
+            // Get all children
+            const { data: educandos } = await supabaseClient.from('alunos').select('id, nome').eq('encarregado_id', userId);
+
+            if (!educandos || educandos.length === 0) {
+                container.innerHTML = '<p class="text-center">Nenhum educando encontrado</p>';
+                return;
+            }
+
+            const alunoIds = educandos.map(e => e.id);
+            const { data: pagamentos } = await supabaseClient.from('pagamentos').select('*, alunos(nome)').in('aluno_id', alunoIds).order('data_vencimento', { ascending: false });
+
+            if (!pagamentos || pagamentos.length === 0) {
+                container.innerHTML = '<p class="text-center">Nenhum pagamento encontrado</p>';
+                return;
+            }
+
+            const pagos = pagamentos.filter(p => p.status === 'pago').length;
+            const pendentes = pagamentos.filter(p => p.status === 'pendente');
+            const totalPendente = pendentes.reduce((a, b) => a + parseFloat(b.valor), 0);
+
+            document.getElementById('stat-pagos').textContent = pagos;
+            document.getElementById('stat-pendentes').textContent = pendentes.length;
+            document.getElementById('stat-total').textContent = totalPendente.toLocaleString('pt-AO') + ' Kz';
+
+            container.innerHTML = pagamentos.map(p => `
+                <div class="payment-card ${p.status === 'pago' ? 'paid' : 'pending'}">
+                    <div class="payment-info">
+                        <h4>${p.alunos?.nome || 'N/A'} - ${p.tipo}</h4>
+                        <p>${p.mes_referencia || ''}</p>
+                        <p>Vencimento: ${new Date(p.data_vencimento).toLocaleDateString('pt-PT')}</p>
+                    </div>
+                    <div class="payment-value">
+                        <div class="amount">${parseFloat(p.valor).toLocaleString('pt-AO')} Kz</div>
+                        <span class="status ${p.status}">${p.status === 'pago' ? 'Pago' : 'Pendente'}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+        }
+    </script>
+</body>
+
+</html>

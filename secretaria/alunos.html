@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alunos | Secretaria CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #7c3aed 0%, #5b21b6 100%);
+        }
+
+        .stat-card.stat-primary .stat-icon {
+            background: rgba(124, 58, 237, 0.2);
+            color: #7c3aed;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-clipboard-list" style="color: #7c3aed;"></i>
+            </div>
+            <span class="sidebar-title">Secretaria</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="alunos.html" class="nav-item active"><i class="fas fa-user-graduate"></i><span>Alunos</span></a>
+            <a href="matriculas.html" class="nav-item"><i class="fas fa-clipboard-check"></i><span>Matrículas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-money-bill-wave"></i><span>Pagamentos</span></a>
+            <a href="documentos.html" class="nav-item"><i class="fas fa-file-alt"></i><span>Documentos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Secretaria</span>
+                    <span class="user-role">Funcionário</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Gestão de Alunos</h1>
+            <div class="top-bar-actions">
+                <button class="btn btn-primary" id="btn-novo-aluno"><i class="fas fa-plus"></i> Novo Aluno</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Lista de Alunos</h3>
+                    <div class="filters">
+                        <select id="filter-turma" class="form-select">
+                            <option value="">Todas as Turmas</option>
+                        </select>
+                        <input type="search" id="search-aluno" placeholder="Pesquisar aluno..." class="form-input">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <table class="data-table" id="alunos-table">
+                        <thead>
+                            <tr>
+                                <th>Nº Aluno</th>
+                                <th>Nome</th>
+                                <th>Turma</th>
+                                <th>Nível</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="alunos-tbody">
+                            <tr>
+                                <td colspan="6" class="text-center">A carregar...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Novo Aluno -->
+    <div class="modal" id="modal-aluno" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Novo Aluno</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <form id="form-aluno" class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nome Completo</label>
+                        <input type="text" name="nome" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Nº Aluno</label>
+                        <input type="text" name="numero_aluno" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Data de Nascimento</label>
+                        <input type="date" name="data_nascimento" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Género</label>
+                        <select name="genero" class="form-select">
+                            <option value="masculino">Masculino</option>
+                            <option value="feminino">Feminino</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Nível de Ensino</label>
+                        <select name="nivel_ensino" class="form-select">
+                            <option value="Ensino Primário">Ensino Primário</option>
+                            <option value="1º Ciclo">1º Ciclo</option>
+                            <option value="2º Ciclo">2º Ciclo</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Classe</label>
+                        <input type="text" name="classe" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Turma</label>
+                        <input type="text" name="turma" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" class="form-select">
+                            <option value="ativo">Ativo</option>
+                            <option value="inativo">Inativo</option>
+                            <option value="transferido">Transferido</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        let editingId = null;
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            await loadAlunos();
+            setupEventListeners();
+        });
+
+        async function loadAlunos() {
+            try {
+                const { data, error } = await supabaseClient.from('alunos').select('*').order('nome');
+                if (error) throw error;
+
+                const tbody = document.getElementById('alunos-tbody');
+                if (!data || data.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum aluno encontrado</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = data.map(a => `
+                    <tr>
+                        <td>${a.numero_aluno || '-'}</td>
+                        <td>${a.nome}</td>
+                        <td>${a.turma || '-'}</td>
+                        <td>${a.nivel_ensino || '-'}</td>
+                        <td><span class="status-badge ${a.status}">${a.status}</span></td>
+                        <td>
+                            <button class="btn-icon" onclick="editAluno('${a.id}')" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button class="btn-icon danger" onclick="deleteAluno('${a.id}')" title="Eliminar"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) { console.error(e); }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            document.getElementById('btn-logout')?.addEventListener('click', async () => {
+                await supabaseClient.auth.signOut();
+                window.location.href = '../portal.html';
+            });
+            document.getElementById('btn-novo-aluno')?.addEventListener('click', () => openModal());
+            document.getElementById('modal-close')?.addEventListener('click', () => closeModal());
+            document.getElementById('btn-cancel')?.addEventListener('click', () => closeModal());
+            document.getElementById('form-aluno')?.addEventListener('submit', saveAluno);
+            document.getElementById('search-aluno')?.addEventListener('input', filterAlunos);
+        }
+
+        function openModal(id = null) {
+            editingId = id;
+            document.getElementById('modal-title').textContent = id ? 'Editar Aluno' : 'Novo Aluno';
+            document.getElementById('form-aluno').reset();
+            document.getElementById('modal-aluno').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('modal-aluno').style.display = 'none';
+            editingId = null;
+        }
+
+        async function saveAluno(e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                nome: form.nome.value,
+                numero_aluno: form.numero_aluno.value || null,
+                data_nascimento: form.data_nascimento.value || null,
+                genero: form.genero.value,
+                nivel_ensino: form.nivel_ensino.value,
+                classe: form.classe.value,
+                turma: form.turma.value,
+                status: form.status.value
+            };
+
+            try {
+                if (editingId) {
+                    await supabaseClient.from('alunos').update(data).eq('id', editingId);
+                } else {
+                    await supabaseClient.from('alunos').insert([data]);
+                }
+                closeModal();
+                await loadAlunos();
+            } catch (e) {
+                alert('Erro ao guardar: ' + e.message);
+            }
+        }
+
+        async function editAluno(id) {
+            const { data } = await supabaseClient.from('alunos').select('*').eq('id', id).single();
+            if (data) {
+                const form = document.getElementById('form-aluno');
+                Object.keys(data).forEach(key => {
+                    if (form[key]) form[key].value = data[key] || '';
+                });
+                openModal(id);
+            }
+        }
+
+        async function deleteAluno(id) {
+            if (confirm('Tem certeza que deseja eliminar este aluno?')) {
+                await supabaseClient.from('alunos').delete().eq('id', id);
+                await loadAlunos();
+            }
+        }
+
+        function filterAlunos() {
+            const search = document.getElementById('search-aluno').value.toLowerCase();
+            document.querySelectorAll('#alunos-tbody tr').forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(search) ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+
+</html>

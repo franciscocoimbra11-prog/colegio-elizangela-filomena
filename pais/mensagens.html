@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens | Portal Pais CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+
+        .message-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .message-card:hover {
+            transform: translateX(5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .message-card.unread {
+            border-left: 4px solid #059669;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-subject {
+            font-weight: 600;
+        }
+
+        .message-date {
+            color: var(--gray-500);
+            font-size: 0.85rem;
+        }
+
+        .message-preview {
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-users" style="color: #059669;"></i>
+            </div>
+            <span class="sidebar-title">Portal EE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="educandos.html" class="nav-item"><i class="fas fa-child"></i><span>Meus Educandos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Propinas</span></a>
+            <a href="mensagens.html" class="nav-item active"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Encarregado</span>
+                    <span class="user-role">Pai/Mãe</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Mensagens</h1>
+            <div class="top-bar-actions">
+                <button class="btn btn-primary" id="btn-nova"><i class="fas fa-plus"></i> Nova Mensagem</button>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Caixa de Entrada</h3>
+                </div>
+                <div class="card-body" id="mensagens-container">
+                    <div class="message-card unread">
+                        <div class="message-header">
+                            <span class="message-subject">Reunião de Pais - 1º Trimestre</span>
+                            <span class="message-date">19/12/2024</span>
+                        </div>
+                        <p class="message-preview">Prezado Encarregado de Educação, vimos por este meio informar que a
+                            reunião de pais...</p>
+                    </div>
+                    <div class="message-card">
+                        <div class="message-header">
+                            <span class="message-subject">Calendário Escolar 2024/2025</span>
+                            <span class="message-date">15/12/2024</span>
+                        </div>
+                        <p class="message-preview">Disponibilizamos o calendário escolar actualizado para o ano lectivo
+                            2024/2025...</p>
+                    </div>
+                    <div class="message-card">
+                        <div class="message-header">
+                            <span class="message-subject">Boas Festas!</span>
+                            <span class="message-date">10/12/2024</span>
+                        </div>
+                        <p class="message-preview">A direcção do Colégio Elizângela Filomena deseja a todos um Feliz
+                            Natal...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal Nova Mensagem -->
+    <div class="modal" id="modal-mensagem" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nova Mensagem</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="form-mensagem" class="modal-body">
+                <div class="form-group">
+                    <label>Assunto</label>
+                    <input type="text" name="assunto" required class="form-input" placeholder="Assunto da mensagem">
+                </div>
+                <div class="form-group">
+                    <label>Mensagem</label>
+                    <textarea name="mensagem" required class="form-input" rows="5"
+                        placeholder="Escreva a sua mensagem..."></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            setupEventListeners();
+        });
+
+        function closeModal() {
+            document.getElementById('modal-mensagem').style.display = 'none';
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+            document.getElementById('btn-nova')?.addEventListener('click', () => document.getElementById('modal-mensagem').style.display = 'flex');
+
+            document.getElementById('form-mensagem')?.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                alert('Mensagem enviada com sucesso!');
+                closeModal();
+                e.target.reset();
+            });
+        }
+    </script>
+</body>
+
+</html>

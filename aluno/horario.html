@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Horário | Portal Aluno CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid var(--gray-200);
+        }
+
+        .schedule-table th {
+            background: #2563eb;
+            color: white;
+            font-weight: 600;
+        }
+
+        .schedule-table th:first-child {
+            background: #1d4ed8;
+        }
+
+        .schedule-cell {
+            background: rgba(37, 99, 235, 0.1);
+            border-radius: 6px;
+            padding: 0.5rem;
+        }
+
+        .schedule-cell .subject {
+            font-weight: 600;
+            color: #1d4ed8;
+        }
+
+        .schedule-cell .room {
+            font-size: 0.8rem;
+            color: var(--gray-500);
+        }
+
+        .time-cell {
+            font-weight: 500;
+            color: var(--gray-600);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-graduate" style="color: #2563eb;"></i>
+            </div>
+            <span class="sidebar-title">Portal Aluno</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="horario.html" class="nav-item active"><i class="fas fa-calendar-alt"></i><span>Horário</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-receipt"></i><span>Propinas</span></a>
+            <a href="perfil.html" class="nav-item"><i class="fas fa-user"></i><span>Meu Perfil</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Aluno</span>
+                    <span class="user-role" id="user-turma">Turma</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Meu Horário</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Horário Semanal - <span id="turma-label">Turma</span></h3>
+                </div>
+                <div class="card-body" style="overflow-x: auto;">
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Hora</th>
+                                <th>Segunda</th>
+                                <th>Terça</th>
+                                <th>Quarta</th>
+                                <th>Quinta</th>
+                                <th>Sexta</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-tbody">
+                            <tr>
+                                <td class="time-cell">07:30 - 08:15</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Matemática</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Português</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Física</div>
+                                        <div class="room">Lab 1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">História</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Inglês</div>
+                                        <div class="room">Sala A08</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">08:15 - 09:00</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Matemática</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Português</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Física</div>
+                                        <div class="room">Lab 1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">História</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Inglês</div>
+                                        <div class="room">Sala A08</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">09:15 - 10:00</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Química</div>
+                                        <div class="room">Lab 2</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Biologia</div>
+                                        <div class="room">Lab 3</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Matemática</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Geografia</div>
+                                        <div class="room">Sala A10</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Ed. Física</div>
+                                        <div class="room">Ginásio</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">10:00 - 10:45</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Química</div>
+                                        <div class="room">Lab 2</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Biologia</div>
+                                        <div class="room">Lab 3</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Matemática</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Geografia</div>
+                                        <div class="room">Sala A10</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Ed. Física</div>
+                                        <div class="room">Ginásio</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">11:00 - 11:45</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Ed. Visual</div>
+                                        <div class="room">Sala B05</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Português</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Inglês</div>
+                                        <div class="room">Sala A08</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Física</div>
+                                        <div class="room">Lab 1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Matemática</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="time-cell">11:45 - 12:30</td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Ed. Visual</div>
+                                        <div class="room">Sala B05</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">História</div>
+                                        <div class="room">Sala A12</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Inglês</div>
+                                        <div class="room">Sala A08</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Física</div>
+                                        <div class="room">Lab 1</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="schedule-cell">
+                                        <div class="subject">Biologia</div>
+                                        <div class="room">Lab 3</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const { data: aluno } = await supabaseClient.from('alunos').select('*').eq('user_id', session.user.id).single();
+            if (aluno) {
+                document.getElementById('user-name').textContent = aluno.nome;
+                document.getElementById('user-turma').textContent = aluno.turma || 'N/A';
+                document.getElementById('turma-label').textContent = aluno.turma || 'N/A';
+            }
+
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+        }
+    </script>
+</body>
+
+</html>

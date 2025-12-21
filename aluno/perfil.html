@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil | Portal Aluno CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-info p {
+            color: var(--gray-500);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .info-item {
+            background: var(--gray-50);
+            padding: 1rem;
+            border-radius: var(--radius);
+        }
+
+        .info-item label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-item span {
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-user-graduate" style="color: #2563eb;"></i>
+            </div>
+            <span class="sidebar-title">Portal Aluno</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="horario.html" class="nav-item"><i class="fas fa-calendar-alt"></i><span>Horário</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-receipt"></i><span>Propinas</span></a>
+            <a href="perfil.html" class="nav-item active"><i class="fas fa-user"></i><span>Meu Perfil</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Aluno</span>
+                    <span class="user-role" id="user-turma">Turma</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Meu Perfil</h1>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="card">
+                <div class="card-body">
+                    <div class="profile-header">
+                        <div class="profile-avatar"><i class="fas fa-user"></i></div>
+                        <div class="profile-info">
+                            <h2 id="profile-nome">Nome do Aluno</h2>
+                            <p>Nº Aluno: <strong id="profile-numero">-</strong></p>
+                            <p>Turma: <strong id="profile-turma">-</strong></p>
+                        </div>
+                    </div>
+
+                    <h3 style="margin-bottom: 1rem;">Dados Pessoais</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Nome Completo</label>
+                            <span id="info-nome">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Data de Nascimento</label>
+                            <span id="info-nascimento">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Género</label>
+                            <span id="info-genero">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Nível de Ensino</label>
+                            <span id="info-nivel">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Classe</label>
+                            <span id="info-classe">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Turma</label>
+                            <span id="info-turma">-</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Ano Lectivo</label>
+                            <span id="info-ano">2024/2025</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Status</label>
+                            <span id="info-status">-</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            const { data: aluno } = await supabaseClient.from('alunos').select('*').eq('user_id', session.user.id).single();
+
+            if (aluno) {
+                document.getElementById('user-name').textContent = aluno.nome;
+                document.getElementById('user-turma').textContent = aluno.turma || 'N/A';
+
+                document.getElementById('profile-nome').textContent = aluno.nome;
+                document.getElementById('profile-numero').textContent = aluno.numero_aluno || '-';
+                document.getElementById('profile-turma').textContent = aluno.turma || '-';
+
+                document.getElementById('info-nome').textContent = aluno.nome;
+                document.getElementById('info-nascimento').textContent = aluno.data_nascimento ? new Date(aluno.data_nascimento).toLocaleDateString('pt-PT') : '-';
+                document.getElementById('info-genero').textContent = aluno.genero || '-';
+                document.getElementById('info-nivel').textContent = aluno.nivel_ensino || '-';
+                document.getElementById('info-classe').textContent = aluno.classe || '-';
+                document.getElementById('info-turma').textContent = aluno.turma || '-';
+                document.getElementById('info-ano').textContent = aluno.ano_lectivo || '2024/2025';
+                document.getElementById('info-status').textContent = aluno.status || '-';
+            }
+
+            setupEventListeners();
+        });
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Educandos | Portal Pais CEF</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../admin/admin-style.css">
+    <style>
+        .sidebar {
+            background: linear-gradient(180deg, #059669 0%, #047857 100%);
+        }
+
+        .child-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1rem;
+        }
+
+        .child-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .child-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .child-name h3 {
+            margin-bottom: 0.25rem;
+        }
+
+        .child-name p {
+            color: var(--gray-500);
+            font-size: 0.9rem;
+        }
+
+        .child-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .child-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--gray-50);
+            border-radius: var(--radius);
+        }
+
+        .child-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #059669;
+        }
+
+        .child-stat .label {
+            font-size: 0.85rem;
+            color: var(--gray-500);
+        }
+
+        .child-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                <i class="fas fa-users" style="color: #059669;"></i>
+            </div>
+            <span class="sidebar-title">Portal EE</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item"><i class="fas fa-home"></i><span>Início</span></a>
+            <a href="educandos.html" class="nav-item active"><i class="fas fa-child"></i><span>Meus Educandos</span></a>
+            <a href="notas.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Notas</span></a>
+            <a href="pagamentos.html" class="nav-item"><i class="fas fa-credit-card"></i><span>Propinas</span></a>
+            <a href="mensagens.html" class="nav-item"><i class="fas fa-envelope"></i><span>Mensagens</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                <div class="user-details">
+                    <span class="user-name" id="user-name">Encarregado</span>
+                    <span class="user-role">Pai/Mãe</span>
+                </div>
+            </div>
+            <button class="btn-logout" id="btn-logout"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-bar">
+            <button class="sidebar-toggle" id="sidebar-toggle"><i class="fas fa-bars"></i></button>
+            <h1 class="page-title">Meus Educandos</h1>
+        </header>
+
+        <div class="dashboard-content" id="educandos-container">
+            <p class="text-center">A carregar...</p>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../admin/config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (!session) { window.location.href = 'login.html'; return; }
+
+            await loadEducandos(session.user.id);
+            setupEventListeners();
+        });
+
+        async function loadEducandos(userId) {
+            const container = document.getElementById('educandos-container');
+
+            const { data: educandos } = await supabaseClient.from('alunos').select('*').eq('encarregado_id', userId);
+
+            if (!educandos || educandos.length === 0) {
+                container.innerHTML = '<div class="card"><div class="card-body"><p class="text-center">Nenhum educando encontrado associado à sua conta.</p></div></div>';
+                return;
+            }
+
+            let html = '';
+            for (const e of educandos) {
+                const { data: notas } = await supabaseClient.from('notas').select('nota').eq('aluno_id', e.id);
+                const { count: pendentes } = await supabaseClient.from('pagamentos').select('*', { count: 'exact', head: true }).eq('aluno_id', e.id).eq('status', 'pendente');
+
+                const media = notas && notas.length > 0 ? (notas.reduce((a, b) => a + parseFloat(b.nota), 0) / notas.length).toFixed(1) : '--';
+
+                html += `
+                    <div class="child-card">
+                        <div class="child-header">
+                            <div class="child-avatar"><i class="fas fa-user"></i></div>
+                            <div class="child-name">
+                                <h3>${e.nome}</h3>
+                                <p>${e.nivel_ensino || ''} - Turma ${e.turma || 'N/A'}</p>
+                            </div>
+                        </div>
+                        <div class="child-stats">
+                            <div class="child-stat">
+                                <div class="value">${media}</div>
+                                <div class="label">Média Geral</div>
+                            </div>
+                            <div class="child-stat">
+                                <div class="value">${notas ? notas.length : 0}</div>
+                                <div class="label">Notas Lançadas</div>
+                            </div>
+                            <div class="child-stat">
+                                <div class="value">${pendentes || 0}</div>
+                                <div class="label">Propinas Pendentes</div>
+                            </div>
+                        </div>
+                        <div class="child-actions">
+                            <a href="notas.html?id=${e.id}" class="btn btn-primary btn-sm"><i class="fas fa-chart-line"></i> Ver Notas</a>
+                            <a href="pagamentos.html?id=${e.id}" class="btn btn-secondary btn-sm"><i class="fas fa-receipt"></i> Ver Propinas</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+        }
+
+        function setupEventListeners() {
+            document.getElementById('sidebar-toggle')?.addEventListener('click', () => document.getElementById('sidebar').classList.toggle('active'));
+            document.getElementById('btn-logout')?.addEventListener('click', async () => { await supabaseClient.auth.signOut(); window.location.href = '../portal.html'; });
+        }
+    </script>
+</body>
+
+</html>
