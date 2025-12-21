@@ -210,53 +210,55 @@ window.addEventListener('scroll', function () {
 });
 
 // ==========================================
-// PORTAL DO ALUNO MODAL
+// PORTAL MODAL (Entrar Button)
 // ==========================================
 
-// Portal Modal Elements
-const portalBtn = document.getElementById('portal-btn');
-const portalModal = document.getElementById('portal-modal');
-const modalClose = document.getElementById('modal-close');
-const portalForm = document.getElementById('portal-form');
+document.addEventListener('DOMContentLoaded', function () {
+    // Portal Modal Elements
+    const portalBtn = document.getElementById('portal-btn');
+    const portalModal = document.getElementById('portal-modal');
+    const modalClose = document.getElementById('modal-close');
 
-// Open Portal Modal
-if (portalBtn && portalModal) {
-    portalBtn.addEventListener('click', function (e) {
-        e.preventDefault();
-        portalModal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+    // Open Portal Modal
+    if (portalBtn && portalModal) {
+        portalBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            portalModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
 
-        // Re-initialize icons in modal
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-    });
-}
+            // Re-initialize icons in modal
+            if (typeof lucide !== 'undefined') {
+                setTimeout(() => lucide.createIcons(), 50);
+            }
+        });
+    }
 
-// Close Portal Modal
-if (modalClose && portalModal) {
-    modalClose.addEventListener('click', function () {
-        portalModal.classList.remove('active');
-        document.body.style.overflow = '';
-    });
-}
+    // Close Portal Modal
+    if (modalClose && portalModal) {
+        modalClose.addEventListener('click', function () {
+            portalModal.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
 
-// Close on overlay click
-if (portalModal) {
-    portalModal.addEventListener('click', function (e) {
-        if (e.target === portalModal) {
+    // Close on overlay click
+    if (portalModal) {
+        portalModal.addEventListener('click', function (e) {
+            if (e.target === portalModal) {
+                portalModal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+
+    // Close on Escape key
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && portalModal && portalModal.classList.contains('active')) {
             portalModal.classList.remove('active');
             document.body.style.overflow = '';
         }
     });
-}
-
-// Close on Escape key
-document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && portalModal && portalModal.classList.contains('active')) {
-        portalModal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
 });
 
 // Portal Form Submission
